@@ -29,3 +29,45 @@ Websites
 >     from the `UnityBootstrapper`. Otherwise you'll be constantly
 >     updating the Interface for your Business Logic (every time you add
 >     a new method, etc.)
+
+User Story #212031: bit502 Final Project - Part 1: Databases
+------------------------------------------------------------
+
+> - Create a new "Acme Claims Database".
+>   - Within the database, create a table for "Claim Criteria". It will
+>       have the following columns:
+>     - Id
+>     - Claim Amount
+>     - Claim Network Status (In / Out of Network)
+>     - Preferred Provider (true / false)
+>     - Pre-Approval Obtained (true / false)
+>   - Within the database, create a table for "Provider Status". It will
+>       have the following columns:
+>     - Id
+>     - Provider Code
+>     - Provider Name
+>     - In-Network (true / false)
+>     - Preferred Provider (true / false)
+>   - Seed the Provider Status table as follows:
+>     - 1, ANT, Anthem, true, true
+>     - 2, HUM, Humana, true, false
+>     - 3, UHC, United Healthcare, false, false
+>     - 4, AC1, ACA Insurance 1, true, false
+>   - Within the database, create table for "Claims". It will have the
+>       following columns:
+>     - Id (Claim ID)
+>     - Patient Name
+>     - Provider Code
+>     - Claim Amount
+>     - Pre-Approval Obtained (true / false)
+>     - Claim Status (int - will get values from ClaimStatusDecode so we
+>         have proper normalization)
+>   - Within the database, create a table for "ClaimStatusDecode". This
+>       will hold the values for ClaimStatus. It will have the following
+>       columns:
+>     - Id
+>     - ClaimStatus
+>   - Seed the ClaimStatusDecode with the following values:
+>     - 1, pending
+>     - 2, approved
+>     - 3, denied
