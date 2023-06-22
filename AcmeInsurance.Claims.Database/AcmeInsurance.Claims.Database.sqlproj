@@ -62,4 +62,7 @@
     <Build Include="Tables\Criteria.sql" />
     <Build Include="Tables\Provider.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="AcmeInsurance.Claims.Database.publish.xml" />
+  </ItemGroup>
 </Project>
