@@ -54,6 +54,8 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeploy" />
     <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
@@ -64,5 +66,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AcmeInsurance.Claims.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />
+    <None Include="Scripts\PostDeploy\ResetClaimStatusTable.sql" />
+    <None Include="Scripts\PostDeploy\SeedProviderTable.sql" />
   </ItemGroup>
 </Project>
