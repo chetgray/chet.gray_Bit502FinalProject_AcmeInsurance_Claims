@@ -39,13 +39,13 @@ workspace {
             "structurizr.groupSeparator" "/"
         }
 
-        group "Acme Insurance" {
+        group "AcmeInsurance" {
             AcmeInsurance_Claims = softwareSystem "AcmeInsurance.Claims" {
                 Database = container "Database" {
                     description "Stores claims and claim criteria"
                     technology "SQL Server Database"
-
-                    group "Tables" {
+                    
+                    group "AcmeInsurance.Claims.Database.Tables" {
                         Provider = component "Provider" {
                             description "Id, Code, Name, IsInNetwork, IsPreferred"
                             technology "Table"
@@ -68,19 +68,118 @@ workspace {
                             technology "Table"
                         }
                     }
+
+                    StoredProcedures = component "Stored Procedures" {
+                        description "Provides access to the Claims database"
+                        technology "Stored Procedures"
+                        -> Criteria "Manages criteria data in"
+                    }
                 }
+
+                Data = container "Data" {
+                    description "Provides access to the Claims Database"
+                    technology ".NET Class Library"
+
+                    group "AcmeInsurance.Claims.Data.DataAccess" {
+                        Dal = component "Dal" {
+                            description "Manages access to the Claims database"
+                            technology "class"
+                            -> Database "Accesses"
+                            -> Database.StoredProcedures "Calls"
+                        }
+                    }
+
+                    Dtos = component "Dtos" {
+                        description "Represent data from the Claims database"
+                        technology "classes"
+                    }
+
+                    CriteriaRepository = component "CriteriaRepository" {
+                        description "Manages criteria"
+                        technology "Repository"
+                        -> Dal "Accesses the database using"
+                        -> Database "Manages criteria data in"
+                        -> Database.StoredProcedures "Manages criteria data using"
+                        -> Dtos "Returns"
+                    }
+                }
+
+                Models = container "Models" {
+                    description "Provides models for criteria"
+                    technology ".NET Class Library"
+
+                    CriteriaModel = component "CriteriaModel" {
+                        description "Represents criteria"
+                        technology "class"
+                    }
+                }
+
+                Business = container "Business" {
+                    description "Provides business logic for claims"
+                    technology ".NET Class Library"
+
+                    CriteriaBl = component "CriteriaBl" {
+                        description "Manages criteria"
+                        technology "class"
+                        -> Data "Accesses criteria data using"
+                        -> Data.CriteriaRepository "Accesses criteria data using"
+                        -> Data.Dtos "Converts to/from"
+                        -> Models.CriteriaModel "Converts to/from and returns"
+                    }
+                }
+
+                group "AcmeInsurance.Claims.CriteriaManager.Web" {
+                    Web_CriteriaManager = container "Web.CriteriaManager" {
+                        description "Allows Managers to enter criteria used to approve or deny a claim"
+                        technology "ASP.NET MVC"
+
+                        ViewModels = component "ViewModels" {
+                            description "Used to pass criteria data between the views and controllers"
+                            technology "classes"
+                        }
+
+                        Views = component "Views" {
+                            description "Allows criteria to be viewed and edited"
+                            technology "Razor"
+                            -> ViewModels "Displays data from and stores data in"
+                        }
+
+                        group "AcmeInsurance.Claims.Web.CriteriaManager.Controllers" {
+                            CriteriaController = component "CriteriaController" {
+                                description "Manages criteria"
+                                technology "Controller"
+                                -> Business.CriteriaBl "Manages criteria using"
+                                -> Models.CriteriaModel "Converts ViewModels from/to"
+                                -> ViewModels "Converts Models from/to"
+                                -> Views "Displays criteria and allows criteria to be entered using"
+                            }
+                        }
+                    }
+                }
+            }
+
+            Manager = person "Acme Insurance Manager" {
+                description "Manages criteria used to approve or deny a claim"
+                -> AcmeInsurance_Claims.Web_CriteriaManager.Views "Manages criteria using" "HTTPS"
             }
         }
     }
 
     views {
-        component AcmeInsurance_Claims.Database {
+        component AcmeInsurance_Claims.Web_CriteriaManager {
             properties {
                 "structurizr.softwareSystemBoundaries" "true"
                 "structurizr.enterpriseBoundary" "true"
             }
-
-            include element.type==person element.type==softwareSystem element.type==container element.type==component
+            include element.parent==AcmeInsurance_Claims.Web_CriteriaManager
+            include element.parent==AcmeInsurance_Claims.Business
+            include element.parent==AcmeInsurance_Claims.Models
+            include element.parent==AcmeInsurance_Claims.Data
+            include element.parent==AcmeInsurance_Claims.Database
+            include element.type==person
+            include element.type==softwareSystem
+            include element.type==container
+            include element.type==component
         }
     }
 }
@@ -157,3 +256,5 @@ Criteria Website
 >   - The claim will be approved by the Decider Service if the Claim
 >     meets any of the entered criteria (that's another part of the
 >     assignment).
+
+![AcmeInsurance.Claims.Web.CriteriaManager component diagram](https://kroki.io/structurizr/svg/eNq9WNtu4zYQffdXsHxOlS9wAccusAY2gRun6eOClsYJsRKpklQMb5F_75C6S7QuTnb1YCQkZzRz5pwhqZNU33XKQiD_LQg-v_EIhOFHDkqTV_xlKnzlIYsXbjqREcTFUvukSqagDAfdGLQP1UZlockU_6GCFyWzdA8pU8xIRQm9pdXi90X1p1tG6CpMYCt0ppgIgXb8tia_rWPGE02WRMujOTEF-7M2kHR8BPmyriv7bJhhB6YBXYRSGMYFKELLUZ-FfSLQoeKp4VIQuseUMP0wD4WJKP-T4AoDijPqdWEgfBUyli9n9PDXV7IH9Yavrt7sNfIO-lArMg5Kd8ETO8SgL-Vjn52Sb1h75ZBIUimQBoSWo0OWPUS20Q1ZI1FuyANL8Hert-IBzAmpZv_ZKTiCUhDRQZdNhFz4l5c3ONR9HBB7w0ym25k1JmYn98ziDH5Z9J64Z0e8Y6hRYfJ6lEW1E6tEZsLckC_M1mWVoqDfWHzTxG37eYWyz-9_tIpCW2_CXMdeh_YVV2mdyojlEMiFUDs4l_KdC_UGBGfxPRc8yZIS3kf4N-PYJqp4m5LoT1YSqScdTO0qfSIDZ0Dm-l2EsYYQZbbztWDLZ0k9PYRfC7sie2yhYQhaEyOJeQVStPhosDH2OmovisUQHUsC0Hsm2Itt5uWIfS3hgi6mweaBzLbg_u4yaWcZRmR4q2iiETz8-WSt0MVXfsAd_UwXV20l7mflghkq64bFbVLgwCwZlWW4kgnd_EOb-mhTqY4CNM8QppsEPU3QNYtj_UmK2xjZUZkdmSysR0gxJGvn2HxUMrleWQ7LS9BciL_UFwYiNUeozv5WW89Pzq0r2GlJNF60GCxvXJPBQVZiRTLNxcuIcUmneU1lnFp-fxMisjTC3PFQLvQHOtq9vQPodk_Lx-Z1tST3c5Rqxll5ci8rSeUi8_PNTc2X0Vy2DbSfSXjf2dLaPthCvBydh_mh9IWh8TDHPr8cfT7ydxdgv4t_srxH-n2hroa0ZyvJ7oWervZBj7lA11LgTdDYbe_W9upBu1x3QZvsPRfuVqo-LPyh40EVgauYCv6Bw6Uq49S3zvI2tXFB199kxqziWJ40Kczc2QHJB3WLwWLgyRCHmTtFA0EJRCDOhOVKmEax1X7n9HD_vKaXbxbPHE6NblkpoR6fdSz6u4g8tRpsM-yAdwkA4TapN_RefIhATJWMYwRi5mkJ9FVXqWf36l6u89IsSlgliBkf8qwwfZsWRDgz41L6yH5INXqYaxSLbrhOY3bWjROTfbHOP_WM7t8DCA1pyMP7YN0o4QiIpWlt4u-_9fyYxw_0Y18dGi8etcOClDtc0NhQ-oefkd46vVc26m8LfmvkJK9N2lS-rvTTZF6VoCUe80rCNTbUxAQI3mffRIZHOgyv23iKRHUiRoKTiuFkoI0PEmx-t0Yofd-IA8-uExSYX-AUoV-ennZ7uvDDkP9VAJH33Dq5WnZTg-kgc_HDeu_jevvT953MRMQUtx9eKK7yXOta1o5DqeIaCsuz165dfS7COIuQgDEk6CBI8fXCLJdTc73eWdkTrveQS_N6e3tS81pfXO29xl3hogRxMHZzTmG5zFU4YWGbPBMMqmNaTwfv_wPR-exQ)
