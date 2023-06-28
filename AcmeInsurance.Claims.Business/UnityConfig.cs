@@ -1,15 +1,18 @@
 ﻿using System;
 
+using AcmeInsurance.Claims.Data;
+using AcmeInsurance.Claims.Models;
+
 using Unity;
 
 namespace AcmeInsurance.Claims.Business
 {
-    internal static class UnityConfig
+    public static class UnityConfig
     {
         private static readonly Lazy<IUnityContainer> _container =
             new Lazy<IUnityContainer>(() =>
             {
-                IUnityContainer container = new UnityContainer();
+                IUnityContainer container = Data.UnityConfig.Container.CreateChildContainer();
                 RegisterTypes(container);
 
                 return container;
@@ -20,6 +23,11 @@ namespace AcmeInsurance.Claims.Business
             get => _container.Value;
         }
 
-        private static void RegisterTypes(IUnityContainer container) { }
+        private static void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<ICriteriaModel, CriteriaModel>();
+
+            container.RegisterSingleton<ICriteriaRepository, CriteriaRepository>();
+        }
     }
 }
