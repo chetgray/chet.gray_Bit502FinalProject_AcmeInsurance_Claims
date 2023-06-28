@@ -1,5 +1,6 @@
 using System;
 
+
 using Unity;
 
 namespace AcmeInsurance.Claims.Web.CriteriaManager
@@ -20,6 +21,9 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager
             get => _container.Value;
         }
 
-        private static void RegisterTypes(IUnityContainer container) { }
+        private static void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<ICriteriaDetailsViewModel, CriteriaDetailsViewModel>();
+        }
     }
 }
