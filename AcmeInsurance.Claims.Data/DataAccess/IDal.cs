@@ -3,7 +3,7 @@ using System.Data;
 
 namespace AcmeInsurance.Claims.Data.DataAccess
 {
-    internal interface IDal
+    public interface IDal
     {
         /// <summary>Executes a stored procedure with parameters.</summary>
         /// <param name="storedProcedureName">
