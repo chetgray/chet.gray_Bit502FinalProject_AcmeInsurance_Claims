@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Unity;
 
@@ -15,9 +15,9 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager
                 return container;
             });
 
-        public static IUnityContainer GetConfiguredContainer()
+        public static IUnityContainer Container
         {
-            return _container.Value;
+            get => _container.Value;
         }
 
         private static void RegisterTypes(IUnityContainer container) { }

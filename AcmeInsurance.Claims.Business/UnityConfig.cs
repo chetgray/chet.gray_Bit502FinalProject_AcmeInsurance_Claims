@@ -15,9 +15,9 @@ namespace AcmeInsurance.Claims.Business
                 return container;
             });
 
-        public static IUnityContainer GetConfiguredContainer()
+        public static IUnityContainer Container
         {
-            return _container.Value;
+            get => _container.Value;
         }
 
         private static void RegisterTypes(IUnityContainer container) { }
