@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+
+using AcmeInsurance.Claims.Data.Objects;
 
 using Unity;
 
@@ -20,6 +22,9 @@ namespace AcmeInsurance.Claims.Data
             get => _container.Value;
         }
 
-        private static void RegisterTypes(IUnityContainer container) { }
+        private static void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<ICriteriaDto, CriteriaDto>();
+        }
     }
 }
