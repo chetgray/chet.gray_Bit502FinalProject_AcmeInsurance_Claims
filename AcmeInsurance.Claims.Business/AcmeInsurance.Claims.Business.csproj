@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity.Abstractions" Version="5.11.7" />
+    <PackageReference Include="Unity.Container" Version="5.11.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AcmeInsurance.Claims.Data\AcmeInsurance.Claims.Data.csproj" />
+    <ProjectReference Include="..\AcmeInsurance.Claims.Models\AcmeInsurance.Claims.Models.csproj" />
+  </ItemGroup>
+
+</Project>
