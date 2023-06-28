@@ -12,3 +12,4 @@ Post-Deployment Script Template
 
 :r .\SeedProviderTable.sql
 :r .\ResetClaimStatusTable.sql
+:r .\CreateRoleAndUser.sql
