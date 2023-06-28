@@ -1,5 +1,8 @@
-using System;
+﻿using System;
 
+using AcmeInsurance.Claims.Business;
+using AcmeInsurance.Claims.Models;
+using AcmeInsurance.Claims.Web.CriteriaManager.ViewModels;
 
 using Unity;
 
@@ -10,7 +13,8 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager
         private static readonly Lazy<IUnityContainer> _container =
             new Lazy<IUnityContainer>(() =>
             {
-                IUnityContainer container = new UnityContainer();
+                IUnityContainer container =
+                    Business.UnityConfig.Container.CreateChildContainer();
                 RegisterTypes(container);
 
                 return container;
@@ -24,6 +28,9 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager
         private static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterType<ICriteriaDetailsViewModel, CriteriaDetailsViewModel>();
+            container.RegisterType<ICriteriaModel, CriteriaModel>();
+
+            container.RegisterSingleton<ICriteriaBl, CriteriaBl>();
         }
     }
 }
