@@ -51,6 +51,45 @@ namespace AcmeInsurance.Claims.Data.DataAccess
             }
         }
 
+        public object[] GetRecordFromStoredProcedure(
+            string storedProcedureName,
+            IDictionary<string, object> parameters
+        )
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(storedProcedureName, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                foreach (KeyValuePair<string, object> parameter in parameters)
+                {
+                    command.Parameters.AddWithValue(parameter.Key, parameter.Value);
+                }
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (!reader.Read())
+                    {
+                        return null;
+                    }
+
+                    object[] record = new object[reader.FieldCount];
+                    reader.GetValues(record);
+                    for (int i = 0; i < record.Length; i++)
+                    {
+                        if (record[i] == DBNull.Value)
+                        {
+                            record[i] = null;
+                        }
+                    }
+
+                    return record;
+                }
+            }
+        }
+
         /// <inheritdoc/>
         public IList<object[]> GetRecordListFromStoredProcedure(
             string storedProcedureName,

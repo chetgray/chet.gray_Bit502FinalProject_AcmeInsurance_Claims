@@ -11,6 +11,16 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager.Controllers
 {
     public class CriteriaController : Controller
     {
+        // GET: Criteria/Details/{id}
+        public ActionResult Details(int id)
+        {
+            ICriteriaBl bl = UnityConfig.Container.Resolve<ICriteriaBl>();
+            ICriteriaModel criteria = bl.GetById(id);
+            ICriteriaDetailsViewModel criteriaDetails = ConvertToDetailsViewModel(criteria);
+
+            return View(criteriaDetails);
+        }
+
         // GET: Criteria
         public ActionResult Index()
         {

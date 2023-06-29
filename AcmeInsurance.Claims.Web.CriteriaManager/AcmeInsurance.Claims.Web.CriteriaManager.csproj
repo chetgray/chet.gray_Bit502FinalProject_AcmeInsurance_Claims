@@ -229,6 +229,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Criteria\List.cshtml" />
+    <Content Include="Views\Criteria\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

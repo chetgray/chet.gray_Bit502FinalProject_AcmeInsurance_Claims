@@ -14,6 +14,19 @@ namespace AcmeInsurance.Claims.Business
         [Dependency]
         public ICriteriaRepository Repository { get; set; }
 
+        public ICriteriaModel GetById(int id)
+        {
+            ICriteriaDto dto = Repository.GetById(id);
+            if (dto is null)
+            {
+                return null;
+            }
+
+            ICriteriaModel model = ConvertToModel(dto);
+
+            return model;
+        }
+
         public IList<ICriteriaModel> ListAll()
         {
             IEnumerable<ICriteriaDto> dtos = Repository.ListAll();
