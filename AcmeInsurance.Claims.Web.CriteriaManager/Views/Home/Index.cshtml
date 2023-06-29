@@ -1,6 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Claims Department";
 }
 
 <main>
+    <h1>Claims Department</h1>
+    <h3>Approval Criteria Management</h3>
+    <nav>
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-action">@Html.ActionLink("List All", "List", "Criteria", new { area = "" }, new { @class = "nav-link" })</li>
+        </ul>
+    </nav>
 </main>
