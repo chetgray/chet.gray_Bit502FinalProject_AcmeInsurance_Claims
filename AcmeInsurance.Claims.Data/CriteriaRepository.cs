@@ -19,12 +19,7 @@ namespace AcmeInsurance.Claims.Data
                 "[spA_Criteria_SelectById]",
                 new Dictionary<string, object> { { "@id", id } }
             );
-            ICriteriaDto dto = UnityConfig.Container.Resolve<CriteriaDto>();
-            dto.Id = (int)record[0];
-            dto.DenialMinimumAmount = (decimal)record[1];
-            dto.RequiresProviderIsInNetwork = (bool)record[2];
-            dto.RequiresProviderIsPreferred = (bool)record[3];
-            dto.RequiresClaimHasPreApproval = (bool)record[4];
+            ICriteriaDto dto = ConvertToDto(record);
 
             return dto;
         }
@@ -38,16 +33,23 @@ namespace AcmeInsurance.Claims.Data
             IList<ICriteriaDto> dtos = new List<ICriteriaDto>();
             foreach (object[] record in records)
             {
-                ICriteriaDto dto = UnityConfig.Container.Resolve<ICriteriaDto>();
-                dto.Id = (int)record[0];
-                dto.DenialMinimumAmount = (decimal)record[1];
-                dto.RequiresProviderIsInNetwork = (bool)record[2];
-                dto.RequiresProviderIsPreferred = (bool)record[3];
-                dto.RequiresClaimHasPreApproval = (bool)record[4];
+                ICriteriaDto dto = ConvertToDto(record);
                 dtos.Add(dto);
             }
 
             return dtos;
+        }
+
+        private static ICriteriaDto ConvertToDto(object[] record)
+        {
+            ICriteriaDto addedDto = UnityConfig.Container.Resolve<CriteriaDto>();
+            addedDto.Id = (int)record[0];
+            addedDto.DenialMinimumAmount = (decimal)record[1];
+            addedDto.RequiresProviderIsInNetwork = (bool)record[2];
+            addedDto.RequiresProviderIsPreferred = (bool)record[3];
+            addedDto.RequiresClaimHasPreApproval = (bool)record[4];
+
+            return addedDto;
         }
     }
 }
