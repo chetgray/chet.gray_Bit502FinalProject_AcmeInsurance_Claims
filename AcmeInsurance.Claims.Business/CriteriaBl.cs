@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using AcmeInsurance.Claims.Data;
 using AcmeInsurance.Claims.Data.Objects;
@@ -13,6 +13,15 @@ namespace AcmeInsurance.Claims.Business
     {
         [Dependency]
         public ICriteriaRepository Repository { get; set; }
+
+        public ICriteriaModel Add(ICriteriaModel model)
+        {
+            ICriteriaDto dto = ConvertToDto(model);
+            ICriteriaDto addedDto = Repository.Add(dto);
+            ICriteriaModel addedModel = ConvertToModel(addedDto);
+
+            return addedModel;
+        }
 
         public ICriteriaModel GetById(int id)
         {
@@ -43,7 +52,20 @@ namespace AcmeInsurance.Claims.Business
             model.RequiresProviderIsInNetwork = dto.RequiresProviderIsInNetwork;
             model.RequiresProviderIsPreferred = dto.RequiresProviderIsPreferred;
             model.RequiresClaimHasPreApproval = dto.RequiresClaimHasPreApproval;
+
             return model;
+        }
+
+        private ICriteriaDto ConvertToDto(ICriteriaModel criteria)
+        {
+            ICriteriaDto dto = UnityConfig.Container.Resolve<ICriteriaDto>();
+            dto.Id = criteria.Id;
+            dto.DenialMinimumAmount = criteria.DenialMinimumAmount;
+            dto.RequiresProviderIsInNetwork = criteria.RequiresProviderIsInNetwork;
+            dto.RequiresProviderIsPreferred = criteria.RequiresProviderIsPreferred;
+            dto.RequiresClaimHasPreApproval = criteria.RequiresClaimHasPreApproval;
+
+            return dto;
         }
 
         private IList<ICriteriaModel> ConvertToModelList(IEnumerable<ICriteriaDto> dtos)

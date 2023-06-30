@@ -13,6 +13,23 @@ namespace AcmeInsurance.Claims.Data
         [Dependency]
         public IDal Dal { get; set; }
 
+        public ICriteriaDto Add(ICriteriaDto dto)
+        {
+            object[] record = Dal.GetRecordFromStoredProcedure(
+                "spA_Criteria_Insert",
+                new Dictionary<string, object>
+                {
+                    { "@denialMinimumAmount", dto.DenialMinimumAmount },
+                    { "@requiresProviderIsInNetwork", dto.RequiresProviderIsInNetwork },
+                    { "@requiresProviderIsPreferred", dto.RequiresProviderIsPreferred },
+                    { "@requiresClaimHasPreApproval", dto.RequiresClaimHasPreApproval },
+                }
+            );
+            ICriteriaDto addedDto = ConvertToDto(record);
+
+            return addedDto;
+        }
+
         public ICriteriaDto GetById(int id)
         {
             object[] record = Dal.GetRecordFromStoredProcedure(

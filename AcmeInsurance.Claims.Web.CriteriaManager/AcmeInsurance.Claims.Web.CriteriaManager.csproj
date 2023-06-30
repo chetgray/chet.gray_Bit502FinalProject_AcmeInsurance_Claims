@@ -157,7 +157,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CriteriaCreateViewModel.cs" />
     <Compile Include="ViewModels\CriteriaDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ICriteriaCreateViewModel.cs" />
     <Compile Include="ViewModels\ICriteriaDetailsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +232,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Criteria\List.cshtml" />
     <Content Include="Views\Criteria\Details.cshtml" />
+    <Content Include="Views\Criteria\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

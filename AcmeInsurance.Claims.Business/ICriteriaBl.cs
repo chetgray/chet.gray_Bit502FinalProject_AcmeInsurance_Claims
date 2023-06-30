@@ -7,6 +7,13 @@ namespace AcmeInsurance.Claims.Business
     /// <summary>Provides business logic operations for criteria records.</summary>
     public interface ICriteriaBl
     {
+        /// <summary>Adds a new criteria record.</summary>
+        /// <param name="model">The criteria record to add.</param>
+        /// <returns>
+        /// The newly added criteria record, with the <see cref="ICriteriaModel.Id"/> set.
+        /// </returns>
+        ICriteriaModel Add(ICriteriaModel model);
+
         /// <summary>Gets a criteria record with the specified ID.</summary>
         /// <param name="id">The ID of the criteria record to retrieve.</param>
         /// <returns>

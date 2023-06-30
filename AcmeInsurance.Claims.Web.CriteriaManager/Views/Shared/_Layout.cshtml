@@ -26,16 +26,15 @@
                 <ul class="navbar-nav flex-grow-1">
                     <li>
                         @Html.ActionLink("Claims", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("Criteria", "Index", "Criteria", new { area = "" }, new { @class = "nav-link" })
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-                           role="button" aria-expanded="false"></a>
+                           role="button" aria-expanded="false">Criteria</a>
                         <ul class="dropdown-menu">
                             <li>
                                 @Html.ActionLink("List All", "List", "Criteria", new { area = "" }, new { @class = "dropdown-item" })
+                            </li>
+                            <li>
+                                @Html.ActionLink("Create New", "Create", "Criteria", new { area = "" }, new { @class = "dropdown-item" })
                             </li>
                         </ul>
                     </li>

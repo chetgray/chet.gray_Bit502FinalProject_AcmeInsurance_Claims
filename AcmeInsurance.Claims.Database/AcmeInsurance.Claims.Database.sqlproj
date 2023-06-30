@@ -66,6 +66,7 @@
     <Build Include="Tables\Criteria.sql" />
     <Build Include="Tables\Provider.sql" />
     <Build Include="Stored Procedures\spA_Criteria_SelectById.sql" />
+    <Build Include="Stored Procedures\spA_Criteria_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AcmeInsurance.Claims.Database.publish.xml" />

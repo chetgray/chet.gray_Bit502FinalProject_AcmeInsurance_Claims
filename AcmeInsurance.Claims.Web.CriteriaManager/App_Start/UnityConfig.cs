@@ -27,6 +27,7 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager
 
         private static void RegisterTypes(IUnityContainer container)
         {
+            container.RegisterType<ICriteriaCreateViewModel, CriteriaCreateViewModel>();
             container.RegisterType<ICriteriaDetailsViewModel, CriteriaDetailsViewModel>();
             container.RegisterType<ICriteriaModel, CriteriaModel>();
 

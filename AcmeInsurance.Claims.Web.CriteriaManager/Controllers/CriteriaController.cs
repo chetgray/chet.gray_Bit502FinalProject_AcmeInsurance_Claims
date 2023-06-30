@@ -11,6 +11,38 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager.Controllers
 {
     public class CriteriaController : Controller
     {
+        // GET: Criteria/Create
+        public ActionResult Create()
+        {
+            ICriteriaCreateViewModel criteriaCreate =
+                UnityConfig.Container.Resolve<ICriteriaCreateViewModel>();
+
+            return View(criteriaCreate);
+        }
+
+        // POST: Criteria/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(FormCollection form)
+        {
+            ICriteriaCreateViewModel criteriaCreate =
+                UnityConfig.Container.Resolve<ICriteriaCreateViewModel>();
+            UpdateModel(criteriaCreate, form);
+            ICriteriaModel criteria = ConvertToModel(criteriaCreate);
+
+            try
+            {
+                ICriteriaBl bl = UnityConfig.Container.Resolve<ICriteriaBl>();
+                ICriteriaModel createdCriteria = bl.Add(criteria);
+
+                return RedirectToAction("Details", new { id = createdCriteria.Id });
+            }
+            catch
+            {
+                return View(criteriaCreate);
+            }
+        }
+
         // GET: Criteria/Details/{id}
         public ActionResult Details(int id)
         {
@@ -65,6 +97,17 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager.Controllers
             }
 
             return viewModels;
+        }
+
+        private ICriteriaModel ConvertToModel(ICriteriaCreateViewModel viewModel)
+        {
+            ICriteriaModel model = UnityConfig.Container.Resolve<ICriteriaModel>();
+            model.DenialMinimumAmount = (decimal)viewModel.DenialMinimumAmount;
+            model.RequiresProviderIsInNetwork = viewModel.RequiresProviderIsInNetwork;
+            model.RequiresProviderIsPreferred = viewModel.RequiresProviderIsPreferred;
+            model.RequiresClaimHasPreApproval = viewModel.RequiresClaimHasPreApproval;
+
+            return model;
         }
     }
 }

@@ -1,0 +1,71 @@
+﻿@using AcmeInsurance.Claims.Web.CriteriaManager.ViewModels;
+@model ICriteriaCreateViewModel
+
+@{
+    ViewBag.Title ??= "Create Criteria";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="row align-items-center mb-3">
+        <div class="col-sm-4 text-sm-end col-md-3">
+            @Html.LabelFor(model => model.DenialMinimumAmount, htmlAttributes: new { @class = "form-label" })
+        </div>
+        <div class="col-sm-8 col-md-9">
+            @Html.EditorFor(model => model.DenialMinimumAmount, new { htmlAttributes = new { @class = "form-control", aria_describedby = "DenialMinumAmountHelp" } })
+            <div class="form-text" id="DenialMinumAmountHelp">
+                This amount and higher will be denied.
+            </div>
+            @Html.ValidationMessageFor(model => model.DenialMinimumAmount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-4 text-sm-end col-md-3">
+            @Html.LabelFor(model => model.RequiresProviderIsInNetwork, htmlAttributes: new { @class = "form-label form-check-label" })
+        </div>
+        <div class="col-sm-8 col-md-9">
+            @Html.EditorFor(model => model.RequiresProviderIsInNetwork, new { htmlAttributes= new { @class = "form-check-input" }})
+            @Html.ValidationMessageFor(model => model.RequiresProviderIsInNetwork, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-4 text-sm-end col-md-3">
+            @Html.LabelFor(model => model.RequiresProviderIsPreferred, htmlAttributes: new { @class = "form-label form-check-label" })
+        </div>
+        <div class="col-sm-8 col-md-9">
+            @Html.EditorFor(model => model.RequiresProviderIsPreferred, new { htmlAttributes = new { @class = "form-check-input" }})
+            @Html.ValidationMessageFor(model => model.RequiresProviderIsPreferred, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-4 text-sm-end col-md-3">
+            @Html.LabelFor(model => model.RequiresClaimHasPreApproval, htmlAttributes: new { @class = "form-label" })
+        </div>
+        <div class="col-sm-8 col-md-9">
+            @Html.EditorFor(model => model.RequiresClaimHasPreApproval, new { htmlAttributes = new { @class = "form-check-input" }})
+            @Html.ValidationMessageFor(model => model.RequiresClaimHasPreApproval, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="offset-sm-4 col-sm-8 offset-md-3 col-md-9">
+            <button class="btn btn-primary" type="submit">Create</button>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
