@@ -96,8 +96,6 @@ namespace AcmeInsurance.Claims.Data.DataAccess
             IDictionary<string, object> parameters
         )
         {
-            IList<object[]> records = new List<object[]>();
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
@@ -112,6 +110,7 @@ namespace AcmeInsurance.Claims.Data.DataAccess
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
+                    IList<object[]> records = new List<object[]>();
                     if (reader.HasRows)
                     {
                         while (reader.Read())
@@ -129,10 +128,10 @@ namespace AcmeInsurance.Claims.Data.DataAccess
                             records.Add(record);
                         }
                     }
+
+                    return records;
                 }
             }
-
-            return records;
         }
 
         /// <inheritdoc/>
@@ -141,8 +140,6 @@ namespace AcmeInsurance.Claims.Data.DataAccess
             IDictionary<string, object> parameters
         )
         {
-            DataTable resultTable = new DataTable();
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (
                 SqlCommand command = new SqlCommand(storedProcedureName, connection)
@@ -159,10 +156,11 @@ namespace AcmeInsurance.Claims.Data.DataAccess
                 }
 
                 // Get the first DataTable in the result DataSet
+                DataTable resultTable = new DataTable();
                 adapter.Fill(resultTable);
-            }
 
-            return resultTable;
+                return resultTable;
+            }
         }
 
         /// <inheritdoc/>
@@ -185,7 +183,9 @@ namespace AcmeInsurance.Claims.Data.DataAccess
                     command.Parameters.AddWithValue(parameter.Key, parameter.Value);
                 }
 
-                return command.ExecuteScalar();
+                object value = command.ExecuteScalar();
+
+                return value;
             }
         }
     }
