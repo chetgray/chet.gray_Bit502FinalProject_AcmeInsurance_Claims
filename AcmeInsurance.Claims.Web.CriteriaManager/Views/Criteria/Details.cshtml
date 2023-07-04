@@ -10,19 +10,20 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DenialMinimumAmount)</dt>
-        <dd class="col-sm-9">@Html.DisplayFor(model => model.DenialMinimumAmount)</dd>
+        <dt class="col-sm-4 text-sm-end col-md-3">@Html.DisplayNameFor(model => model.DenialMinimumAmount)</dt>
+        <dd class="col-sm-8 col-md-9">@Html.DisplayFor(model => model.DenialMinimumAmount)</dd>
 
-        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.RequiresProviderIsInNetwork)</dt>
-        <dd class="col-sm-9">@Html.DisplayFor(model => model.RequiresProviderIsInNetwork)</dd>
+        <dt class="col-sm-4 text-sm-end col-md-3">@Html.DisplayNameFor(model => model.RequiresProviderIsInNetwork)</dt>
+        <dd class="col-sm-8 col-md-9">@Html.DisplayFor(model => model.RequiresProviderIsInNetwork)</dd>
 
-        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.RequiresProviderIsPreferred)</dt>
-        <dd class="col-sm-9">@Html.DisplayFor(model => model.RequiresProviderIsPreferred)</dd>
+        <dt class="col-sm-4 text-sm-end col-md-3">@Html.DisplayNameFor(model => model.RequiresProviderIsPreferred)</dt>
+        <dd class="col-sm-8 col-md-9">@Html.DisplayFor(model => model.RequiresProviderIsPreferred)</dd>
 
-        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.RequiresClaimHasPreApproval)</dt>
-        <dd class="col-sm-9">@Html.DisplayFor(model => model.RequiresClaimHasPreApproval)</dd>
+        <dt class="col-sm-4 text-sm-end col-md-3">@Html.DisplayNameFor(model => model.RequiresClaimHasPreApproval)</dt>
+        <dd class="col-sm-8 col-md-9">@Html.DisplayFor(model => model.RequiresClaimHasPreApproval)</dd>
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "List")
