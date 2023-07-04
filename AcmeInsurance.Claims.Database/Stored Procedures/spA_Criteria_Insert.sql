@@ -15,17 +15,7 @@ DECLARE @id INT = SCOPE_IDENTITY();
 -- Suppress result set if called from a stored procedure that does not want it.
 IF OBJECT_ID('tempdb..#__SuppressResults_Criteria_Insert') IS NULL
 BEGIN
-    SELECT
-        [Cr].[Id]                          AS [CriteriaId]
-      , [Cr].[DenialMinimumAmount]         AS [CriteriaDenialMinimumAmount]
-      , [Cr].[RequiresProviderIsInNetwork] AS [CriteriaRequiresProviderIsInNetwork]
-      , [Cr].[RequiresProviderIsPreferred] AS [CriteriaRequiresProviderIsPreferred]
-      , [Cr].[RequiresClaimHasPreApproval] AS [CriteriaRequiresClaimHasPreApproval]
-    FROM
-        [Criteria] AS [Cr]
-    WHERE
-        [Cr].[Id] = @id
-    ;
+    EXEC [spA_Criteria_SelectById] @id = @id;
 END
 
 RETURN 0
