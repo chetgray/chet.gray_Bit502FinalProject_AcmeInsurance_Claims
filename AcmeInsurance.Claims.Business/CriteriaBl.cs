@@ -44,6 +44,13 @@ namespace AcmeInsurance.Claims.Business
             return models;
         }
 
+        public bool RemoveById(int id)
+        {
+            bool wasRemoved = Repository.RemoveById(id);
+
+            return wasRemoved;
+        }
+
         private static ICriteriaModel ConvertToModel(ICriteriaDto dto)
         {
             ICriteriaModel model = UnityConfig.Container.Resolve<ICriteriaModel>();

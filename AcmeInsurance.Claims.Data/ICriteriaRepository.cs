@@ -27,5 +27,13 @@ namespace AcmeInsurance.Claims.Data
         /// A <see cref="IList"/> of <see cref="ICriteriaDto"/>s for all criteria records.
         /// </returns>
         IList<ICriteriaDto> ListAll();
+
+        /// <summary>Removes the record with the specified ID.</summary>
+        /// <param name="id">The ID of the record to remove.</param>
+        /// <returns>
+        /// <see langword="true"/> if the record was successfully removed; otherwise,
+        /// <see langword="false"/>.
+        /// </returns>
+        bool RemoveById(int id);
     }
 }

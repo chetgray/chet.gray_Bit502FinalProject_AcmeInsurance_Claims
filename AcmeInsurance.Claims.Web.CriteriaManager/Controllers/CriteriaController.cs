@@ -43,6 +43,35 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager.Controllers
             }
         }
 
+        // GET: Criteria/Delete/{id}
+        public ActionResult Delete(int id)
+        {
+            ICriteriaBl bl = UnityConfig.Container.Resolve<ICriteriaBl>();
+            ICriteriaModel criteria = bl.GetById(id);
+            ICriteriaDetailsViewModel criteriaDetails = ConvertToDetailsViewModel(criteria);
+
+            return View(criteriaDetails);
+        }
+
+        // POST: Criteria/Delete/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, FormCollection form)
+        {
+            if (form["action"] != "delete")
+            {
+                return RedirectToAction("Details", new { id });
+            }
+
+            ICriteriaBl bl = UnityConfig.Container.Resolve<ICriteriaBl>();
+            if (!bl.RemoveById(id))
+            {
+                return RedirectToAction("Delete", new { id });
+            }
+
+            return RedirectToAction("List");
+        }
+
         // GET: Criteria/Details/{id}
         public ActionResult Details(int id)
         {

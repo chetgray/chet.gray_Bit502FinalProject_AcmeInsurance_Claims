@@ -233,6 +233,7 @@
     <Content Include="Views\Criteria\List.cshtml" />
     <Content Include="Views\Criteria\Details.cshtml" />
     <Content Include="Views\Criteria\Create.cshtml" />
+    <Content Include="Views\Criteria\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

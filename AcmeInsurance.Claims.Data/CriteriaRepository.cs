@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 
 using AcmeInsurance.Claims.Data.DataAccess;
 using AcmeInsurance.Claims.Data.Objects;
@@ -55,6 +56,23 @@ namespace AcmeInsurance.Claims.Data
             }
 
             return dtos;
+        }
+
+        public bool RemoveById(int id)
+        {
+            try
+            {
+                Dal.ExecuteStoredProcedure(
+                    "spA_Criteria_DeleteById",
+                    new Dictionary<string, object> { { "@id", id } }
+                );
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private static ICriteriaDto ConvertToDto(object[] record)
