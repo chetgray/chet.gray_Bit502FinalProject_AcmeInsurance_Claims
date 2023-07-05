@@ -35,5 +35,10 @@ namespace AcmeInsurance.Claims.Data
         /// <see langword="false"/>.
         /// </returns>
         bool RemoveById(int id);
+
+        /// <summary>Updates the specified criteria record.</summary>
+        /// <param name="dto">The criteria record to update.</param>
+        /// <returns>The updated criteria record.</returns>
+        ICriteriaDto Update(ICriteriaDto dto);
     }
 }

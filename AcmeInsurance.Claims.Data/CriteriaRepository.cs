@@ -75,6 +75,24 @@ namespace AcmeInsurance.Claims.Data
             return true;
         }
 
+        public ICriteriaDto Update(ICriteriaDto dto)
+        {
+            object[] record = Dal.GetRecordFromStoredProcedure(
+                "spA_Criteria_UpdateById",
+                new Dictionary<string, object>
+                {
+                    { "@id", dto.Id },
+                    { "@denialMinimumAmount", dto.DenialMinimumAmount },
+                    { "@requiresProviderIsInNetwork", dto.RequiresProviderIsInNetwork },
+                    { "@requiresProviderIsPreferred", dto.RequiresProviderIsPreferred },
+                    { "@requiresClaimHasPreApproval", dto.RequiresClaimHasPreApproval },
+                }
+            );
+            ICriteriaDto updatedDto = ConvertToDto(record);
+
+            return updatedDto;
+        }
+
         private static ICriteriaDto ConvertToDto(object[] record)
         {
             ICriteriaDto addedDto = UnityConfig.Container.Resolve<CriteriaDto>();

@@ -82,6 +82,39 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager.Controllers
             return View(criteriaDetails);
         }
 
+        // GET: Criteria/Edit/{id}
+        public ActionResult Edit(int id)
+        {
+            ICriteriaBl bl = UnityConfig.Container.Resolve<ICriteriaBl>();
+            ICriteriaModel criteria = bl.GetById(id);
+            ICriteriaDetailsViewModel criteriaDetails = ConvertToDetailsViewModel(criteria);
+
+            return View(criteriaDetails);
+        }
+
+        // POST: Criteria/Edit/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(FormCollection form)
+        {
+            ICriteriaDetailsViewModel criteriaDetails =
+                UnityConfig.Container.Resolve<ICriteriaDetailsViewModel>();
+            UpdateModel(criteriaDetails, form);
+            ICriteriaModel criteria = ConvertToModel(criteriaDetails);
+
+            try
+            {
+                ICriteriaBl bl = UnityConfig.Container.Resolve<ICriteriaBl>();
+                ICriteriaModel updatedCriteria = bl.Update(criteria);
+
+                return RedirectToAction("Details", new { id = updatedCriteria.Id });
+            }
+            catch
+            {
+                return View(criteriaDetails);
+            }
+        }
+
         // GET: Criteria
         public ActionResult Index()
         {
@@ -128,15 +161,27 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager.Controllers
             return viewModels;
         }
 
-        private ICriteriaModel ConvertToModel(ICriteriaCreateViewModel viewModel)
+        private ICriteriaModel ConvertToModel(ICriteriaDetailsViewModel criteriaDetails)
         {
-            ICriteriaModel model = UnityConfig.Container.Resolve<ICriteriaModel>();
-            model.DenialMinimumAmount = (decimal)viewModel.DenialMinimumAmount;
-            model.RequiresProviderIsInNetwork = viewModel.RequiresProviderIsInNetwork;
-            model.RequiresProviderIsPreferred = viewModel.RequiresProviderIsPreferred;
-            model.RequiresClaimHasPreApproval = viewModel.RequiresClaimHasPreApproval;
+            ICriteriaModel criteria = UnityConfig.Container.Resolve<ICriteriaModel>();
+            criteria.Id = criteriaDetails.Id;
+            criteria.DenialMinimumAmount = criteriaDetails.DenialMinimumAmount;
+            criteria.RequiresProviderIsInNetwork = criteriaDetails.RequiresProviderIsInNetwork;
+            criteria.RequiresProviderIsPreferred = criteriaDetails.RequiresProviderIsPreferred;
+            criteria.RequiresClaimHasPreApproval = criteriaDetails.RequiresClaimHasPreApproval;
 
-            return model;
+            return criteria;
+        }
+
+        private ICriteriaModel ConvertToModel(ICriteriaCreateViewModel criteriaCreate)
+        {
+            ICriteriaModel criteria = UnityConfig.Container.Resolve<ICriteriaModel>();
+            criteria.DenialMinimumAmount = (decimal)criteriaCreate.DenialMinimumAmount;
+            criteria.RequiresProviderIsInNetwork = criteriaCreate.RequiresProviderIsInNetwork;
+            criteria.RequiresProviderIsPreferred = criteriaCreate.RequiresProviderIsPreferred;
+            criteria.RequiresClaimHasPreApproval = criteriaCreate.RequiresClaimHasPreApproval;
+
+            return criteria;
         }
     }
 }

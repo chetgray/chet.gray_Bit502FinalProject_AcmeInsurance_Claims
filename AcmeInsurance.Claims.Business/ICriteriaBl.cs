@@ -35,5 +35,10 @@ namespace AcmeInsurance.Claims.Business
         /// <see langword="false"/>.
         /// </returns>
         bool RemoveById(int id);
+
+        /// <summary>Updates the specified criteria record.</summary>
+        /// <param name="model">The criteria record to update.</param>
+        /// <returns>The updated criteria record.</returns>
+        ICriteriaModel Update(ICriteriaModel model);
     }
 }

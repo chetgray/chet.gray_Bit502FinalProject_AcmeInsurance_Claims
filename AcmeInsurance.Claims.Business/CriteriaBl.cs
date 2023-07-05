@@ -51,6 +51,15 @@ namespace AcmeInsurance.Claims.Business
             return wasRemoved;
         }
 
+        public ICriteriaModel Update(ICriteriaModel model)
+        {
+            ICriteriaDto dto = ConvertToDto(model);
+            dto = Repository.Update(dto);
+            ICriteriaModel updatedModel = ConvertToModel(dto);
+
+            return updatedModel;
+        }
+
         private static ICriteriaModel ConvertToModel(ICriteriaDto dto)
         {
             ICriteriaModel model = UnityConfig.Container.Resolve<ICriteriaModel>();
