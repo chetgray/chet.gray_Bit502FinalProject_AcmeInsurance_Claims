@@ -72,6 +72,7 @@ workspace {
                     StoredProcedures = component "Stored Procedures" {
                         description "Provides access to the Claims database"
                         technology "Stored Procedures"
+                        -> Claim "Manages claim data in"
                         -> Criteria "Manages criteria data in"
                     }
                 }
@@ -94,6 +95,15 @@ workspace {
                         technology "classes"
                     }
 
+                    ClaimRepository = component "ClaimRepository" {
+                        description "Manages claims"
+                        technology "Repository"
+                        -> Dal "Accesses the database using"
+                        -> Database "Manages claims data in"
+                        -> Database.StoredProcedures "Manages claim data using"
+                        -> Dtos "Returns"
+                    }
+
                     CriteriaRepository = component "CriteriaRepository" {
                         description "Manages criteria"
                         technology "Repository"
@@ -108,6 +118,11 @@ workspace {
                     description "Provides models for criteria"
                     technology ".NET Class Library"
 
+                    ClaimModel = component "ClaimModel" {
+                        description "Represents a claim"
+                        technology "class"
+                    }
+
                     CriteriaModel = component "CriteriaModel" {
                         description "Represents criteria"
                         technology "class"
@@ -117,6 +132,15 @@ workspace {
                 Business = container "Business" {
                     description "Provides business logic for claims"
                     technology ".NET Class Library"
+
+                    ClaimBl = component "ClaimBl" {
+                        description "Manages claims"
+                        technology "class"
+                        -> Data "Accesses claims data using"
+                        -> Data.ClaimRepository "Accesses claims data using"
+                        -> Data.Dtos "Converts to/from"
+                        -> Models.ClaimModel "Converts to/from and returns"
+                    }
 
                     CriteriaBl = component "CriteriaBl" {
                         description "Manages criteria"
@@ -156,6 +180,34 @@ workspace {
                         }
                     }
                 }
+
+                group "AcmeInsurance.Claims.WebServices" {
+                    WebServices_Api = container "WebServices.Api" {
+                        description "Enter new claims and check the status of existing claims"
+                        technology "ASP.NET Web API"
+
+                        group "AcmeInsurance.Claims.WebServices.Controllers" {
+                            ClaimController = component "ClaimController" {
+                                description "Manages claims"
+                                technology "Controller"
+                                -> Business.ClaimBl "Manages claims using"
+                                -> Models.ClaimModel "De/serializes JSON from/to"
+                            }
+                        }
+                    }
+
+                    WebServices_Api_Proxy = container "WebServices.Api.Proxy" {
+                        description "Enter new claims and check the status of existing claims"
+                        technology ".NET Class Library/NuGet Package"
+
+                        ClaimProxy = component "ClaimProxy" {
+                            description "Manages claims"
+                            technology ".NET class"
+                            -> WebServices_Api.ClaimController "Calls" "JSON/HTTPS"
+                            -> Models.ClaimModel "De/serializes JSON from/to and returns"
+                        }
+                    }
+                }
             }
 
             Manager = person "Acme Insurance Manager" {
@@ -166,16 +218,19 @@ workspace {
     }
 
     views {
-        component AcmeInsurance_Claims.Web_CriteriaManager {
+        container AcmeInsurance_Claims {
             properties {
                 "structurizr.softwareSystemBoundaries" "true"
                 "structurizr.enterpriseBoundary" "true"
             }
+            include element.parent==AcmeInsurance_Claims.WebServices_Api_Proxy
+            include element.parent==AcmeInsurance_Claims.WebServices_Api
             include element.parent==AcmeInsurance_Claims.Web_CriteriaManager
             include element.parent==AcmeInsurance_Claims.Business
             include element.parent==AcmeInsurance_Claims.Models
             include element.parent==AcmeInsurance_Claims.Data
             include element.parent==AcmeInsurance_Claims.Database
+            include element.parent==AcmeInsurance_Claims
             include element.type==person
             include element.type==softwareSystem
             include element.type==container
@@ -291,3 +346,5 @@ Claim API
 >   ```csharp
 >   public int Post(IClaimModel claimModel)
 >   ```
+
+![AcmeInsurance.Claims.WebServices.Proxy component diagram](https://kroki.io/structurizr/svg/eNrNWltz6yYQfvevoHpOlV-QzjjOmZ50TlI3TtPHDJZwwkQGFVB8nE7-exd0RUIXZLdz9OCxgV32-u2CdeDiTaY4IuifBYLnJxoTpuiOEiHRK3xiEb3SCCcLM73nMUmKpfpJBU-JUJTIxqB-AqlEFqlM0A8RvgiepRuSYoEVFwEKLoNq8eei-mqWoWAZ7cktk5nALCJBi681-bxKMN1LdIUk36kDFmRzlIrsWzzCfFmblX5usMJbLAmwiDhTmDIiUFCOuij0ExMZCZoqyhkKNqASqB_lomAW518RrFBEUBw4WSgSvTKe8JcjcPjjG9oQ8Q5bVzs7iZyDLqsVGoclu_ARbxMi-_TRz1rwd_C9MJbYp5xBGKCgHB2i7FjkNr5AKwiUC3SP9_B5K2_ZPVEHCDX9Yy3IjghB4mCQZdNCRvz-5Y0Yaj_GEBuFVSZtzRoT3so94SQj_5v0Drm9JV5jyFGmcn-UTtUTyz3PmLpAX7H2yzKFhH7HyUXTbrfnc5R-fv7Fckpg7QS6jm0H9FWsBrUqI5RDRi4StWXnMn19TX1DGMXJHWV0n-1L8z6QvzMKMFHJ20yJ7mSVIvWkMZPtpTNGoIfJDN7FIGtE4kwjn2W2fBbV00P2s2xXaA8QGkVESqQ4Uq8EFRAfDwJjB1E7UizGwhEFd5jhlxLJzYaIsmHCMnJq2nJkkLxrb4etNXZ3y9KkkjRsyuEa0zRjeP_lUVMBi290C63AMVjMqkHmY2mEGYqHG5zY0QQDXvlXumFmCLX1j7Tqo2hU9RBBriGZThJ2kilY4SSRZ0rVG8Vb6alHJmfkA0lBJE1nonkn-H5-Shpb9pmmR36zEUjBJQU7HR2FsJ6crJWV5nKa8I1tFoNuTeogMKYqbYQySdnLCHEZRraEk5BoIKAcsDZBGB05oDY08MzTZwUC9rqtM-_vucHO-gfx3aRC4OE9i9-ZHDjBpXf6wCftOpSP-VWifc5nx4XHwWhy_TFYYMRyYIQZ9wc9qCJ5znjg26xMccndnJojul-KDMo-QZtrHY-64FphUo76Bcq25AWi0SgPmAGknh8u165YuU7-0zoy0lAUUNDAoWYJmAZDYbtonsQsh5EVZ-9EKN1QXeouYJAuR4ewkZIdenNLIk4oLtc9-TLHfefKlB4H-uK2cWG3hp7I8QQ_Wig1y5UTnDt0gKgkMB4T4V9k2-dlmHpuLbcxCRa0-U2OmGWS8INEBZk5XUDwkbqggTPg0AnD2BzQCQLsigk7-hWS5WZtgOzuaRX0X1o8UXJo1OYqE-pxr4PTn4XkqQZPO8K2RB0IYaYlegfuxR0n2FTwJAFDeJ6niJx1S_Nktu7o6qdm4cJKQdB4m2sF6mu1SAwzHvddD_iDi9HjXsNZwQ2VaYKPsnGm0hvL_BZ5tFscsNBQDjniPlw1XDhixJK0JnHjbz0_xvEEPHb5obHxKB04pGxNwkZB6bbaI9g6HSsb_tcOv1R8Etdm2FS8ZvJpRl6loA487EwJA2yQExNM8Ol9V3FiPYBY1v-W0Kj_crGx5HmZ0k4NKCdDmJyM_18M2DNysP7reSXRm8FGmd9n8x0i36lUYDev1rCEfZAOLde3wew8r3TzyW9N3Zvc9uT8zB6xxlnzuujw23cp_indaGNvyKXUOZLQD-D42-b3-2lp-Hme27xWUD_Dken7cTC0Q7PkBwnw7uns8j77lSi0xtEb-CgY-RusVteOzFEdTwrIjgbT7oRbvgrbCVZc86JAR9Hl18fH9WaUp1dEjvflfgg9EJ91o50C1Jg2C6AJVdiEBhrtwRbAv58GK7leEAgd54KwqIo9VR8FDqd8LuxvhSHyrrhWro7QPmGs4mRbpfeNis5bFfY7D9c8YzEWVBfFAFY5ruUtalPhU0ElKSiPTjrb85RFSRZDe5CQPTAIU9ieqaurKXqejVEOfAsnPyd9uypMp-yk3HRS112MJ7U-tPuSYE8RndfOM1iY3zPoyv-8526ZvzjQycvPfwH3fZ9o)
