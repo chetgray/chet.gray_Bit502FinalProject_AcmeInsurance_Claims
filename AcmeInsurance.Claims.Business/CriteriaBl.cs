@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using AcmeInsurance.Claims.Data;
 using AcmeInsurance.Claims.Data.Objects;
@@ -21,6 +21,15 @@ namespace AcmeInsurance.Claims.Business
             ICriteriaModel addedModel = ConvertToModel(addedDto);
 
             return addedModel;
+        }
+
+        public IList<ICriteriaModel> AddRange(IEnumerable<ICriteriaModel> models)
+        {
+            IEnumerable<ICriteriaDto> dtos = ConvertToDtoList(models);
+            IEnumerable<ICriteriaDto> addedDtos = Repository.AddRange(dtos);
+            IList<ICriteriaModel> addedModels = ConvertToModelList(addedDtos);
+
+            return addedModels;
         }
 
         public ICriteriaModel GetById(int id)
@@ -82,6 +91,17 @@ namespace AcmeInsurance.Claims.Business
             dto.RequiresClaimHasPreApproval = criteria.RequiresClaimHasPreApproval;
 
             return dto;
+        }
+
+        private IEnumerable<ICriteriaDto> ConvertToDtoList(IEnumerable<ICriteriaModel> models)
+        {
+            IList<ICriteriaDto> dtos = new List<ICriteriaDto>();
+            foreach (ICriteriaModel model in models)
+            {
+                dtos.Add(ConvertToDto(model));
+            }
+
+            return dtos;
         }
 
         private IList<ICriteriaModel> ConvertToModelList(IEnumerable<ICriteriaDto> dtos)

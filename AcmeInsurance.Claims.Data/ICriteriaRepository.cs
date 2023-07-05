@@ -14,6 +14,16 @@ namespace AcmeInsurance.Claims.Data
         /// </returns>
         ICriteriaDto Add(ICriteriaDto dto);
 
+        /// <summary>Adds the records in the specified collection.</summary>
+        /// <param name="dtos">
+        /// The collection whose elements records should be added.
+        /// </param>
+        /// <returns>
+        /// A <see cref="IList"/> of <see cref="ICriteriaDto"/>s for the added records, with
+        /// their <see cref="ICriteriaDto.Id"/>s set.
+        /// </returns>
+        IList<ICriteriaDto> AddRange(IEnumerable<ICriteriaDto> dtos);
+
         /// <summary>Gets a criteria record with the specified ID.</summary>
         /// <param name="id">The ID of the criteria record to retrieve.</param>
         /// <returns>

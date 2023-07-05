@@ -235,6 +235,7 @@
     <Content Include="Views\Criteria\Create.cshtml" />
     <Content Include="Views\Criteria\Delete.cshtml" />
     <Content Include="Views\Criteria\Edit.cshtml" />
+    <Content Include="Views\Criteria\BulkCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

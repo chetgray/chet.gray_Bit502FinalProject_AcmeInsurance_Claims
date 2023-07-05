@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 using AcmeInsurance.Claims.Business;
@@ -11,6 +13,56 @@ namespace AcmeInsurance.Claims.Web.CriteriaManager.Controllers
 {
     public class CriteriaController : Controller
     {
+        // GET: Criteria/BulkCreate
+        public ActionResult BulkCreate()
+        {
+            return View();
+        }
+
+        // POST: Criteria/BulkCreate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult BulkCreate(FormCollection form)
+        {
+            string[] lines = form["criteria"]
+                .Trim()
+                .Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            IList<ICriteriaModel> criteriaList = new List<ICriteriaModel>();
+            foreach (string line in lines)
+            {
+                string[] values = line.Split(',').Select(v => v.Trim()).ToArray();
+                ICriteriaModel criteria = UnityConfig.Container.Resolve<ICriteriaModel>();
+                criteria.DenialMinimumAmount = decimal.Parse(values[0].TrimStart('$'));
+                try
+                {
+                    criteria.RequiresProviderIsInNetwork = bool.Parse(values[1]);
+                }
+                catch (FormatException)
+                {
+                    switch (values[1].ToLower())
+                    {
+                        case "out of network":
+                            criteria.RequiresProviderIsInNetwork = false;
+                            break;
+                        case "in network":
+                        default:
+                            criteria.RequiresProviderIsInNetwork = true;
+                            break;
+                    }
+                }
+
+                criteria.RequiresProviderIsPreferred = bool.Parse(values[2]);
+                criteria.RequiresClaimHasPreApproval = bool.Parse(values[3]);
+                criteriaList.Add(criteria);
+            }
+
+            // add criteria
+            ICriteriaBl bl = UnityConfig.Container.Resolve<ICriteriaBl>();
+            bl.AddRange(criteriaList);
+
+            return RedirectToAction("List");
+        }
+
         // GET: Criteria/Create
         public ActionResult Create()
         {

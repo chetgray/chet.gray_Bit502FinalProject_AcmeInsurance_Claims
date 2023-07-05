@@ -14,6 +14,16 @@ namespace AcmeInsurance.Claims.Business
         /// </returns>
         ICriteriaModel Add(ICriteriaModel model);
 
+        /// <summary>Adds the records in the specified collection.</summary>
+        /// <param name="models">
+        /// The collection whose elements records should be added.
+        /// </param>
+        /// <returns>
+        /// A <see cref="IList"/> of <see cref="ICriteriaModel"/>s for the added records, with
+        /// their <see cref="ICriteriaModel.Id"/>s set.
+        /// </returns>
+        IList<ICriteriaModel> AddRange(IEnumerable<ICriteriaModel> models);
+
         /// <summary>Gets a criteria record with the specified ID.</summary>
         /// <param name="id">The ID of the criteria record to retrieve.</param>
         /// <returns>

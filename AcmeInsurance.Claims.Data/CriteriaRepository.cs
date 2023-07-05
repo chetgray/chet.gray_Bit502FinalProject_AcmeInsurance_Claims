@@ -31,6 +31,18 @@ namespace AcmeInsurance.Claims.Data
             return addedDto;
         }
 
+        public IList<ICriteriaDto> AddRange(IEnumerable<ICriteriaDto> dtos)
+        {
+            IList<ICriteriaDto> addedDtos = new List<ICriteriaDto>();
+            foreach (ICriteriaDto dto in dtos)
+            {
+                ICriteriaDto addedDto = Add(dto);
+                addedDtos.Add(addedDto);
+            }
+
+            return addedDtos;
+        }
+
         public ICriteriaDto GetById(int id)
         {
             object[] record = Dal.GetRecordFromStoredProcedure(
