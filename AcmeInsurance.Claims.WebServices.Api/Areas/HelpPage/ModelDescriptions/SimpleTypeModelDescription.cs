@@ -1,0 +1,6 @@
+namespace AcmeInsurance.Claims.WebServices.Api.Areas.HelpPage.ModelDescriptions
+{
+    public class SimpleTypeModelDescription : ModelDescription
+    {
+    }
+}
