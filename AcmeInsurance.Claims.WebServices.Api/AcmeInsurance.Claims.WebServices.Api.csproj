@@ -224,7 +224,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\bootstrap.min.js.map" />
@@ -294,6 +293,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AcmeInsurance.Claims.Business\AcmeInsurance.Claims.Business.csproj">
+      <Project>{79368157-52a6-45c1-9ea6-3912c62b0fc9}</Project>
+      <Name>AcmeInsurance.Claims.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcmeInsurance.Claims.Models\AcmeInsurance.Claims.Models.csproj">
+      <Project>{96247425-e5f6-47af-98b5-9e7ff7e92876}</Project>
+      <Name>AcmeInsurance.Claims.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
