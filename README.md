@@ -97,7 +97,7 @@ workspace {
 
                     ClaimRepository = component "ClaimRepository" {
                         description "Manages claims"
-                        technology "Repository"
+                        technology "class"
                         -> Dal "Accesses the database using"
                         -> Database "Manages claims data in"
                         -> Database.StoredProcedures "Manages claim data using"
@@ -106,7 +106,7 @@ workspace {
 
                     CriteriaRepository = component "CriteriaRepository" {
                         description "Manages criteria"
-                        technology "Repository"
+                        technology "class"
                         -> Dal "Accesses the database using"
                         -> Database "Manages criteria data in"
                         -> Database.StoredProcedures "Manages criteria data using"
@@ -171,7 +171,7 @@ workspace {
                         group "AcmeInsurance.Claims.Web.CriteriaManager.Controllers" {
                             CriteriaController = component "CriteriaController" {
                                 description "Manages criteria"
-                                technology "Controller"
+                                technology "Controller class"
                                 -> Business.CriteriaBl "Manages criteria using"
                                 -> Models.CriteriaModel "Converts ViewModels from/to"
                                 -> ViewModels "Converts Models from/to"
@@ -187,24 +187,36 @@ workspace {
                         technology "ASP.NET Web API"
 
                         group "AcmeInsurance.Claims.WebServices.Controllers" {
-                            ClaimController = component "ClaimController" {
+                            ClaimsController = component "ClaimsController" {
                                 description "Manages claims"
-                                technology "Controller"
+                                technology "ApiController class"
                                 -> Business.ClaimBl "Manages claims using"
                                 -> Models.ClaimModel "De/serializes JSON from/to"
                             }
                         }
                     }
 
-                    WebServices_Api_Proxy = container "WebServices.Api.Proxy" {
+                    WebServices_Proxy = container "WebServices.Proxy" {
                         description "Enter new claims and check the status of existing claims"
                         technology ".NET Class Library/NuGet Package"
 
                         ClaimProxy = component "ClaimProxy" {
                             description "Manages claims"
-                            technology ".NET class"
-                            -> WebServices_Api.ClaimController "Calls" "JSON/HTTPS"
+                            technology "class"
+                            -> WebServices_Api.ClaimsController "Calls" "JSON/HTTPS"
                             -> Models.ClaimModel "De/serializes JSON from/to and returns"
+                        }
+                    }
+
+                    WebServices_Proxy_Tests = container "WebServices.Proxy.Tests" {
+                        description "Tests the ClaimProxy"
+                        technology "MSTest Unit Test Project"
+
+                        ClaimProxyTests = component "ClaimProxyTests" {
+                            description "Tests the ClaimProxy"
+                            technology "class"
+                            -> WebServices_Proxy.ClaimProxy "Tests"
+                            -> Models.ClaimModel "Uses"
                         }
                     }
                 }
@@ -223,7 +235,8 @@ workspace {
                 "structurizr.softwareSystemBoundaries" "true"
                 "structurizr.enterpriseBoundary" "true"
             }
-            include element.parent==AcmeInsurance_Claims.WebServices_Api_Proxy
+            include element.parent==AcmeInsurance_Claims.WebServices_Proxy_Tests
+            include element.parent==AcmeInsurance_Claims.WebServices_Proxy
             include element.parent==AcmeInsurance_Claims.WebServices_Api
             include element.parent==AcmeInsurance_Claims.Web_CriteriaManager
             include element.parent==AcmeInsurance_Claims.Business
@@ -312,7 +325,7 @@ Criteria Website
 >     meets any of the entered criteria (that's another part of the
 >     assignment).
 
-![AcmeInsurance.Claims.Web.CriteriaManager component diagram](https://kroki.io/structurizr/svg/eNq9WNtu4zYQffdXsHxOlS9wAccusAY2gRun6eOClsYJsRKpklQMb5F_75C6S7QuTnb1YCQkZzRz5pwhqZNU33XKQiD_LQg-v_EIhOFHDkqTV_xlKnzlIYsXbjqREcTFUvukSqagDAfdGLQP1UZlockU_6GCFyWzdA8pU8xIRQm9pdXi90X1p1tG6CpMYCt0ppgIgXb8tia_rWPGE02WRMujOTEF-7M2kHR8BPmyriv7bJhhB6YBXYRSGMYFKELLUZ-FfSLQoeKp4VIQuseUMP0wD4WJKP-T4AoDijPqdWEgfBUyli9n9PDXV7IH9Yavrt7sNfIO-lArMg5Kd8ETO8SgL-Vjn52Sb1h75ZBIUimQBoSWo0OWPUS20Q1ZI1FuyANL8Hert-IBzAmpZv_ZKTiCUhDRQZdNhFz4l5c3ONR9HBB7w0ym25k1JmYn98ziDH5Z9J64Z0e8Y6hRYfJ6lEW1E6tEZsLckC_M1mWVoqDfWHzTxG37eYWyz-9_tIpCW2_CXMdeh_YVV2mdyojlEMiFUDs4l_KdC_UGBGfxPRc8yZIS3kf4N-PYJqp4m5LoT1YSqScdTO0qfSIDZ0Dm-l2EsYYQZbbztWDLZ0k9PYRfC7sie2yhYQhaEyOJeQVStPhosDH2OmovisUQHUsC0Hsm2Itt5uWIfS3hgi6mweaBzLbg_u4yaWcZRmR4q2iiETz8-WSt0MVXfsAd_UwXV20l7mflghkq64bFbVLgwCwZlWW4kgnd_EOb-mhTqY4CNM8QppsEPU3QNYtj_UmK2xjZUZkdmSysR0gxJGvn2HxUMrleWQ7LS9BciL_UFwYiNUeozv5WW89Pzq0r2GlJNF60GCxvXJPBQVZiRTLNxcuIcUmneU1lnFp-fxMisjTC3PFQLvQHOtq9vQPodk_Lx-Z1tST3c5Rqxll5ci8rSeUi8_PNTc2X0Vy2DbSfSXjf2dLaPthCvBydh_mh9IWh8TDHPr8cfT7ydxdgv4t_srxH-n2hroa0ZyvJ7oWervZBj7lA11LgTdDYbe_W9upBu1x3QZvsPRfuVqo-LPyh40EVgauYCv6Bw6Uq49S3zvI2tXFB199kxqziWJ40Kczc2QHJB3WLwWLgyRCHmTtFA0EJRCDOhOVKmEax1X7n9HD_vKaXbxbPHE6NblkpoR6fdSz6u4g8tRpsM-yAdwkA4TapN_RefIhATJWMYwRi5mkJ9FVXqWf36l6u89IsSlgliBkf8qwwfZsWRDgz41L6yH5INXqYaxSLbrhOY3bWjROTfbHOP_WM7t8DCA1pyMP7YN0o4QiIpWlt4u-_9fyYxw_0Y18dGi8etcOClDtc0NhQ-oefkd46vVc26m8LfmvkJK9N2lS-rvTTZF6VoCUe80rCNTbUxAQI3mffRIZHOgyv23iKRHUiRoKTiuFkoI0PEmx-t0Yofd-IA8-uExSYX-AUoV-ennZ7uvDDkP9VAJH33Dq5WnZTg-kgc_HDeu_jevvT953MRMQUtx9eKK7yXOta1o5DqeIaCsuz165dfS7COIuQgDEk6CBI8fXCLJdTc73eWdkTrveQS_N6e3tS81pfXO29xl3hogRxMHZzTmG5zFU4YWGbPBMMqmNaTwfv_wPR-exQ)
+![AcmeInsurance.Claims.Web.CriteriaManager component diagram](https://kroki.io/structurizr/svg/eNrNWNtu4zYQffdXsHzOKl_gBRynwBrYBG6cpo8LWhonRCVSJam43iL_3iF1l2hdHKOoHoyE5IxmzpwzJHWU6k-dshDIPwuCzy88AmH4gYPS5A1_mQrfeMjihZtOZARxsdQ-qZIpKMNBNwbtQ7VRWWgyxX-q4FXJLN1ByhQzUlFCb2m1-GNR_emWEboKE9gInSkmQqAdv63JH-uY8USTJdHyYI5Mwe6kDSQdH0G-rOvKPvfMsD3TgC5CKQzjAhSh5ajPwj4R6FDx1HApCN1hSph-mIfCRJT_SXCFAcUZ9bowEL4JGcvXE3r47TvZgXrHV1dv9hp5B32oFRkHpbvgme1j0Ofysc9WyXesvXJIJKkUSANCy9Ehyx4im-iGrJEoN-SRJfi70RvxCOaIVLP_bBUcQCmI6KDLJkIu_PPLGxzqPg6InWEm0-3MGhOzk3thcQb_WfSeuGdHvGWoUWHyepRFtROrRGbC3JBvzNZllaKg31l808Rtc71C2efL11ZRaOtNmOvY69C-4iqtUxmxHAK5EGoH51K-c6G-B8FZ_MAFT7KkhPcJ_so4tokq3qYk-pOVROpJB1O7Sldk4AzIXL-LMNYQosx2vhZs-Sypp4fwa2FXZI8tNAxBa2IkMW9AihYfDTbGXkftRbEYoyOhD0yw17KTuxcSLoYNS-bUtuXIoHkfbw_Wtnf3t6VJW9IwlMN7TBPG4PHXZ2uFLr7zPR4FTnRx0R7kflYumCE-3LO4zSYcmKW_sgwXUqibf2hTH-1G1RmC5hnCdJOgJya6ZnGsryTVeyM78rQjkxX5BCmGZO0cmw9KJpdL0mF5Dpoz8Zf6wkCk5gjVyd-j6_nJuXUFOyOJwZZgKVzxwKFVwkQyzcXriHHJpHn9ZJxVfn8TIrIMQiLgQV7oTzSzB3tv0O12lo_Na2hJ7ucg1Yzz9eQ2VvLJReanmpuar6ArEm0S3ne2tLYFthAvR-dhvi99YWg8zLHPL1TXR_7uDOx38f9A2aiYWtqzlWS3QU9D-6THXKBrKfD2aOyOd2vb9KBdrrugTfaeC3eTVZ8W_tDJoIrAVUwFf8D-XJVx6kdneZvauKDrbzJjVnEsj5oUZu7YgOSDusVgMfA0icPMnbyBoAQiECfCciVMo9hqt3V6eHhZ0_O3kRcOx0a3rJRQj886Ef1eRJ5aDbYZtsf7B4Bwm9Q7ei8-XiCmSsYxAjHzoAT6ouvXi3t1L9d5aRYlrBLEjPd5Vpi-TQsinJlxkX1iP6UaPcc1ikXvuU5jdtKNw5J9sc4_D43u3wMIDWnIw_tg3SjhCIilaW3i77_1_JjHT_RjXx0agU04jRdlKfe5oLGt9I9AIx12esdssMCW_dbISV6b5Kl8Xeinyb8qQUs_5hWGa2-ojAkQfMy-igyPdHheN_MU6eqkjDQnFc_JQDMfpNn8no1Q-r4uB569JygwP8MpQr89P293dOGHIf-rACLvvHVytfimBtNB5uwn-d5n-fZH8zuZiYgpbj_ZUFzlude1rB2HUsU1FJYnr127-lyEcRYhAWNI0EGQ4uuFWS6n5jrozJxSWC5zHk1YWCHdWgt_52u9EVU3LPf_l6-9kn78C0JLk5o=)
 
 User Story #212033: bit502 Final Project - Part 3: ACME Insurance - New
 Claim API
@@ -347,4 +360,4 @@ Claim API
 >   public int Post(IClaimModel claimModel)
 >   ```
 
-![AcmeInsurance.Claims.WebServices.Proxy component diagram](https://kroki.io/structurizr/svg/eNrNWltz6yYQfvevoHpOlV-QzjjOmZ50TlI3TtPHDJZwwkQGFVB8nE7-exd0RUIXZLdz9OCxgV32-u2CdeDiTaY4IuifBYLnJxoTpuiOEiHRK3xiEb3SCCcLM73nMUmKpfpJBU-JUJTIxqB-AqlEFqlM0A8RvgiepRuSYoEVFwEKLoNq8eei-mqWoWAZ7cktk5nALCJBi681-bxKMN1LdIUk36kDFmRzlIrsWzzCfFmblX5usMJbLAmwiDhTmDIiUFCOuij0ExMZCZoqyhkKNqASqB_lomAW518RrFBEUBw4WSgSvTKe8JcjcPjjG9oQ8Q5bVzs7iZyDLqsVGoclu_ARbxMi-_TRz1rwd_C9MJbYp5xBGKCgHB2i7FjkNr5AKwiUC3SP9_B5K2_ZPVEHCDX9Yy3IjghB4mCQZdNCRvz-5Y0Yaj_GEBuFVSZtzRoT3so94SQj_5v0Drm9JV5jyFGmcn-UTtUTyz3PmLpAX7H2yzKFhH7HyUXTbrfnc5R-fv7Fckpg7QS6jm0H9FWsBrUqI5RDRi4StWXnMn19TX1DGMXJHWV0n-1L8z6QvzMKMFHJ20yJ7mSVIvWkMZPtpTNGoIfJDN7FIGtE4kwjn2W2fBbV00P2s2xXaA8QGkVESqQ4Uq8EFRAfDwJjB1E7UizGwhEFd5jhlxLJzYaIsmHCMnJq2nJkkLxrb4etNXZ3y9KkkjRsyuEa0zRjeP_lUVMBi290C63AMVjMqkHmY2mEGYqHG5zY0QQDXvlXumFmCLX1j7Tqo2hU9RBBriGZThJ2kilY4SSRZ0rVG8Vb6alHJmfkA0lBJE1nonkn-H5-Shpb9pmmR36zEUjBJQU7HR2FsJ6crJWV5nKa8I1tFoNuTeogMKYqbYQySdnLCHEZRraEk5BoIKAcsDZBGB05oDY08MzTZwUC9rqtM-_vucHO-gfx3aRC4OE9i9-ZHDjBpXf6wCftOpSP-VWifc5nx4XHwWhy_TFYYMRyYIQZ9wc9qCJ5znjg26xMccndnJojul-KDMo-QZtrHY-64FphUo76Bcq25AWi0SgPmAGknh8u165YuU7-0zoy0lAUUNDAoWYJmAZDYbtonsQsh5EVZ-9EKN1QXeouYJAuR4ewkZIdenNLIk4oLtc9-TLHfefKlB4H-uK2cWG3hp7I8QQ_Wig1y5UTnDt0gKgkMB4T4V9k2-dlmHpuLbcxCRa0-U2OmGWS8INEBZk5XUDwkbqggTPg0AnD2BzQCQLsigk7-hWS5WZtgOzuaRX0X1o8UXJo1OYqE-pxr4PTn4XkqQZPO8K2RB0IYaYlegfuxR0n2FTwJAFDeJ6niJx1S_Nktu7o6qdm4cJKQdB4m2sF6mu1SAwzHvddD_iDi9HjXsNZwQ2VaYKPsnGm0hvL_BZ5tFscsNBQDjniPlw1XDhixJK0JnHjbz0_xvEEPHb5obHxKB04pGxNwkZB6bbaI9g6HSsb_tcOv1R8Etdm2FS8ZvJpRl6loA487EwJA2yQExNM8Ol9V3FiPYBY1v-W0Kj_crGx5HmZ0k4NKCdDmJyM_18M2DNysP7reSXRm8FGmd9n8x0i36lUYDev1rCEfZAOLde3wew8r3TzyW9N3Zvc9uT8zB6xxlnzuujw23cp_indaGNvyKXUOZLQD-D42-b3-2lp-Hme27xWUD_Dken7cTC0Q7PkBwnw7uns8j77lSi0xtEb-CgY-RusVteOzFEdTwrIjgbT7oRbvgrbCVZc86JAR9Hl18fH9WaUp1dEjvflfgg9EJ91o50C1Jg2C6AJVdiEBhrtwRbAv58GK7leEAgd54KwqIo9VR8FDqd8LuxvhSHyrrhWro7QPmGs4mRbpfeNis5bFfY7D9c8YzEWVBfFAFY5ruUtalPhU0ElKSiPTjrb85RFSRZDe5CQPTAIU9ieqaurKXqejVEOfAsnPyd9uypMp-yk3HRS112MJ7U-tPuSYE8RndfOM1iY3zPoyv-8526ZvzjQycvPfwH3fZ9o)
+![AcmeInsurance.Claims.WebServices.Proxy component diagram](https://kroki.io/structurizr/svg/eNrNWNuS4jYQfecrFD1PzBdMqpiZrSypHUJiNnmcEnIzKGNLLkkelk3x72nJGHzDF5hK4gfKSOp29-nTx5J3Sr-ZlHEgf08IXj-ICKQVGwHakC3-Ms23grN44qcTFUF8XOquVKsUtBVgSoPuosbqjNtMi-86eNUqS0NImWZWaUrolJ4WHyanW7-M0BlPYC5NppnkQGt-K5MvjzETiSH3xKiN3TEN4d5YSGo-gnxZ3ZW7nphla2YAXXAlLRMSNKHFaJuFuyIwXIvUCiUJDTElTJ_noTAZ5bcEV1jQgtFWFxb4VqpYve7Rw29fSAj6HR99enKrUetgG2rHjIPCXbBi6xjMpXzctdTqHWuvPRJJqiTSgNBitMuygcg8uiOPSJQ7smAJ_s7NXC7A7pBq7s9Swwa0hoh2uiwj5MO_vLzEofrlgQgts5mpZlaaGJ3cHyzO4F-LviXu0REvGfaotHk9iqK6iVmiMmnvyGfm6jJLsaHfWXxXxm3-cYVy148_VYpCK0_CXPseh_YnrtJzKj2Wh8kI6H1LR-ibQ5S55q5UIJ8l5-mualQqcYwWVYJzMIZYRewWyFHFos7eb4hGI4pJH-KEPjPJXgux8g8kQtLJMMBawHL60pTOQbLZjUW3DpZxCBafVs4KXXwRa3xd7enkKp30PzMfTFdBn1hcpQMOjGrHogZXcqCeP3ep93bM6T1H8wxhuEnQ6Ab6yOLYfFCvPVlV6y83MrilfocUQ3J2ns0brZLre8pjeQmaC_H7B2EUygjEad8i1ufJwVlV-tSMCL5TBBx1T_X3KBXwkMwI-dpjXDCoGly3ivRzqUWSBgTjSIO1x_2lNDfo17PbzpqqguVj4zQsyf1slB6x7RusXJ5FPqwWdvnx8e2C-pNDfjO5BgH94Grq5K4CdTE6Dux14QtDEzwHvaNProf8oQ3vh_g_72JskXMbl7twWBcHdcm6yVneio9K4vHFutfZ1Glwp13eYUGJ1g17f47SN_d31zv_T1i7Q5fglzdwpSUvs1RUyVuaDHByMCs-SdQHImFXOTJugb95STb5tlhtCHwTxmINRvFnFi49yTE6MlvO6eWzxUBsAiyN1SqOQfcelHLrs0FL-5Rm-7xd3U-tuKSiFNeATdORq4VEBYUi1F9_PW3STfsnmBr3sojFd_T4S_jrwu9gplZ1ezx8zN6rzG-U12_7ywz30_8TjjdVfLrIfgaLp1z-hrWhPQfqc6pVbvbmeBMjx2_aa_ITNNrruBEn1DFn-nm1Woa9TkexsF-Gb-fcywqMNT3MC_yiwfzLXZ7OAXlhB3HrOXS25KsUlvg7tP0LuB3EqXMmLcTqzeDGLG7nWI50qUXyCK6h1NfOE-Zh8Bu9_V9-dyTYu4Bd-evzGfy2b8VB_Z1ercfF79mNb9rVL84PKpMR08LtJSiuajlwVqzBCWSqhYGj5b7VrgqAkDzOIiAQQ4IOArtP4f7-lO-AtZibUbKB4-Efw3kYYw==)
