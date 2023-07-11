@@ -1,5 +1,7 @@
 ﻿using System;
 
+using AcmeInsurance.Claims.Models;
+
 using Unity;
 
 namespace AcmeInsurance.Claims.WebServices.Proxy.Tests
@@ -20,6 +22,10 @@ namespace AcmeInsurance.Claims.WebServices.Proxy.Tests
             get => _container.Value;
         }
 
-        private static void RegisterTypes(IUnityContainer container) { }
+        private static void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<IProviderModel, ProviderModel>();
+            container.RegisterType<IClaimModel, ClaimModel>();
+        }
     }
 }
