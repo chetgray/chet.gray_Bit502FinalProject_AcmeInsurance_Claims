@@ -1,5 +1,8 @@
 ﻿using System;
 
+using AcmeInsurance.Claims.Business;
+using AcmeInsurance.Claims.Models;
+
 using Unity;
 
 namespace AcmeInsurance.Claims.WebServices.Api
@@ -21,6 +24,11 @@ namespace AcmeInsurance.Claims.WebServices.Api
             get => _container.Value;
         }
 
-        private static void RegisterTypes(IUnityContainer container) { }
+        private static void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<IClaimModel, ClaimModel>();
+
+            container.RegisterSingleton<IClaimBl, ClaimBl>();
+        }
     }
 }

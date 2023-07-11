@@ -25,8 +25,11 @@ namespace AcmeInsurance.Claims.Business
 
         private static void RegisterTypes(IUnityContainer container)
         {
+            container.RegisterType<IProviderModel, ProviderModel>();
+            container.RegisterType<IClaimModel, ClaimModel>();
             container.RegisterType<ICriteriaModel, CriteriaModel>();
 
+            container.RegisterSingleton<IClaimRepository, ClaimRepository>();
             container.RegisterSingleton<ICriteriaRepository, CriteriaRepository>();
         }
     }

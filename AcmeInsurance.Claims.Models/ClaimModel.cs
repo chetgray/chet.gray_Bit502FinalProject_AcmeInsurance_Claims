@@ -25,6 +25,6 @@ namespace AcmeInsurance.Claims.Models
         public IProviderModel Provider { get; set; }
         public decimal Amount { get; set; }
         public bool HasPreApproval { get; set; }
-        public ClaimStatus ClaimStatus { get; set; }
+        public ClaimStatus ClaimStatus { get; set; } = ClaimStatus.Pending;
     }
 }

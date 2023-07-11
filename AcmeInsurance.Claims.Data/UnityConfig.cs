@@ -31,6 +31,8 @@ namespace AcmeInsurance.Claims.Data
                 "AcmeInsurance.Claims.Database"
             ].ConnectionString;
 
+            container.RegisterType<IProviderDto, ProviderDto>();
+            container.RegisterType<IClaimDto, ClaimDto>();
             container.RegisterType<ICriteriaDto, CriteriaDto>();
 
             container.RegisterSingleton<IDal, Dal>(new InjectionConstructor(connectionString));
