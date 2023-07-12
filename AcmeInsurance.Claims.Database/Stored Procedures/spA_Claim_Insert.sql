@@ -1,14 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[spA_Claim_Insert]
-    @PatientName    NVARCHAR(850)
-  , @ProviderId     INT
-  , @Amount         MONEY
-  , @HasPreApproval BIT
-  , @ClaimStatusId  INT
+    @patientName    NVARCHAR(850)
+  , @providerId     INT
+  , @amount         MONEY
+  , @hasPreApproval BIT
+  , @claimStatusId  INT
 AS
 
 INSERT INTO [Claim]
        ([PatientName], [ProviderId], [Amount], [HasPreApproval], [ClaimStatusId])
-VALUES (@PatientName,  @ProviderId,  @Amount,  @HasPreApproval,  @ClaimStatusId)
+VALUES (@patientName,  @providerId,  @amount,  @hasPreApproval,  @claimStatusId)
 ;
 
 DECLARE @id INT = SCOPE_IDENTITY();
