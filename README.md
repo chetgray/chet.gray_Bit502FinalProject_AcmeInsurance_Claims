@@ -220,6 +220,24 @@ workspace {
                         }
                     }
                 }
+
+                group "AcmeInsurance.Claims.Services" {
+                    Services_DeciderService = container "Services.DeciderService" {
+                        description "Decides whether to approve or deny a claim"
+                        technology "Windows Service"
+
+                        Service = component "Service" {
+                            description "Decides whether to approve or deny a claim"
+                            technology "class"
+                            -> Business "Manages claim status using"
+                            -> Business.ClaimBl "Manages claim status using"
+                            -> Business.CriteriaBl "Lists criteria using"
+                            -> Models "Uses"
+                            -> Models.ClaimModel "Uses"
+                            -> Models.CriteriaModel "Uses"
+                        }
+                    }
+                }
             }
 
             Manager = person "Acme Insurance Manager" {
@@ -235,6 +253,7 @@ workspace {
                 "structurizr.softwareSystemBoundaries" "true"
                 "structurizr.enterpriseBoundary" "true"
             }
+            include element.parent==AcmeInsurance_Claims.Services_DeciderService
             include element.parent==AcmeInsurance_Claims.WebServices_Proxy_Tests
             include element.parent==AcmeInsurance_Claims.WebServices_Proxy
             include element.parent==AcmeInsurance_Claims.WebServices_Api
@@ -389,3 +408,5 @@ Criteria Website
 >   - The claim will be approved by the Decider Service if the Claim
 >     meets any of the entered criteria (that's another part of the
 >     assignment).
+
+![AcmeInsurance.Claims.Services.DeciderService component diagram](https://kroki.io/structurizr/svg/eNrFWd2O2ygUvs9TsFxP3SfISpPJShtpZjTbdNvLirFPJqg2eAEnyq7m3QvYOMY_xHayLRdRApzj8_Od74Bz5OK7zEkM6L8F0uM3mgBTdEdBSLTXn0TEexqTdGGXM55AWm01Ixc8B6EoyMakGVgqUcSqEPRfEb0JXuRbyIkgiguM8Edcb35f1F_tNoTv4ww2TBaCsBhwS6-3-O0hJTSTaIkk36kjEbA9SQVZS0dUbmurMmNNFHklErSKmDNFKAOBsJvtkzAjARkLmivKGcJb7ZJ2Py5NISwpvyK9Q4GgBPeqUBDvGU_520lr-OsRbUEc9KPrJ_cK9U72Ra3yOHLqos_kNQU55I8ZL4IfdO6FjUSWc6ZhgLCbDUl2IrJJ7tCDBsodeiaZ_tzIDXsGddRQMz9eBOxACEhwUGUzQtb84e0NDLWHDcRWEVVI37PGwmTnvpC0gJ9mfY_dky1-IbpGmSrz4ZJqFu4zXjB1h_4kJi_3uS7oA0nvmnHb3C5RZnz43UsK9p6kfb30OC1fYxWfXbkgGQpyVaitOLvynRrqNTBK0ifKaFZkLryf4J-Capqo7W2WRHexLpHzog2Tn6UbInBCyCzfJdrWGJLCMJ8XtnIVnZdD8fNiV3mvKTSOQUqkOFJ7QBXFJ0Fi7DBqx4rFJTgi_EQYeXNMbh-IKAsLOuScZd1MULwb755YG-7utqVRLSkcynCPaYYxev7js5HSKh7pqz4KnPBiVg-yH_fWmBAe1iT10aQnJtWfS8NMCLX9j43rF9moPkPg0kMYLxJ1igk_kDSVNyrVteKt8jQzoyvyE-TaJCNn0bwTPJtfkjaWQ6EZsN8-SFvBJdVxOvU0wvPiaK-8MpcTjA9SgYFunX8bJRceVEjK3i4IOwT5xo0ioQCWehhthDEGNDr3-uzOJqarIr_BjHXWpycteKj-9WkbRf8TEufpu1HuRmTzyVzzpN99yrlp_Scr9ey4mHAdGt11LANYs3qYwc5PpzrdO8pyuRphF4qkz-7m0hzTb1Ydo0CyMng0bdaDiZudBpRXp0ubRuMSMAF-ng-XVR9WVukv7x66vM881GT_cTQUtVvlVcpKGnng7ABCmWPUR9P7g3IlO0SNkuzI23cj4oq-shqolznpu3kf8RM4lbdtCrvt80qNV-TRY6lZqRyR3NC1wbwQo_Hw_dGtf1tDbC7N1W-fjNymyN80Gi6lmETHPeizgTAXCmIv34A0QyXATtPaxVfKEn6Uzng8_FKi6c75cn3Z_P_FhXn3oro_tM6hsnzxcwHDLSWRY-_bKDszCn6kstE6R2qqDkj47zG3vR5unCTn12JY9H10Nfb_Kr9VtXqgcGy-2D9Dse81fDRUkj5aB_8y6Pxt4L_UX_GCJURQQwlY7-q5d3rS2kwQuaASKslTr5wfCMritEgAQQqZVhDl-vFMLZdT_J2v0OFzvoYSMkF5dcphuaxJspP59x9hk7JD)
