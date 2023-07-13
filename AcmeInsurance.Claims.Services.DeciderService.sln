@@ -5,6 +5,10 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeInsurance.Claims.Services.DeciderService", "AcmeInsurance.Claims.Services.DeciderService\AcmeInsurance.Claims.Services.DeciderService.csproj", "{BAB3DB26-0B8C-49B6-A125-F52F86E6204F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeInsurance.Claims.Business", "AcmeInsurance.Claims.Business\AcmeInsurance.Claims.Business.csproj", "{F7D9CAA6-B180-4E5F-B82A-3AE004A68350}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeInsurance.Claims.Models", "AcmeInsurance.Claims.Models\AcmeInsurance.Claims.Models.csproj", "{1879F6A2-EEB2-47BA-A39A-B0B19696C904}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{BAB3DB26-0B8C-49B6-A125-F52F86E6204F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAB3DB26-0B8C-49B6-A125-F52F86E6204F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAB3DB26-0B8C-49B6-A125-F52F86E6204F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7D9CAA6-B180-4E5F-B82A-3AE004A68350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7D9CAA6-B180-4E5F-B82A-3AE004A68350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D9CAA6-B180-4E5F-B82A-3AE004A68350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7D9CAA6-B180-4E5F-B82A-3AE004A68350}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1879F6A2-EEB2-47BA-A39A-B0B19696C904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1879F6A2-EEB2-47BA-A39A-B0B19696C904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1879F6A2-EEB2-47BA-A39A-B0B19696C904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1879F6A2-EEB2-47BA-A39A-B0B19696C904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

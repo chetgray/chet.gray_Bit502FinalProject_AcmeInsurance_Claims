@@ -34,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +50,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AcmeInsurance.Claims.Business\AcmeInsurance.Claims.Business.csproj">
+      <Project>{f7d9caa6-b180-4e5f-b82a-3ae004a68350}</Project>
+      <Name>AcmeInsurance.Claims.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AcmeInsurance.Claims.Models\AcmeInsurance.Claims.Models.csproj">
+      <Project>{1879f6a2-eeb2-47ba-a39a-b0b19696c904}</Project>
+      <Name>AcmeInsurance.Claims.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
