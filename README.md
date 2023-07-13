@@ -361,3 +361,31 @@ Claim API
 >   ```
 
 ![AcmeInsurance.Claims.WebServices.Proxy component diagram](https://kroki.io/structurizr/svg/eNrNWNuS4jYQfecrFD1PzBdMqpiZrSypHUJiNnmcEnIzKGNLLkkelk3x72nJGHzDF5hK4gfKSOp29-nTx5J3Sr-ZlHEgf08IXj-ICKQVGwHakC3-Ms23grN44qcTFUF8XOquVKsUtBVgSoPuosbqjNtMi-86eNUqS0NImWZWaUrolJ4WHyanW7-M0BlPYC5NppnkQGt-K5MvjzETiSH3xKiN3TEN4d5YSGo-gnxZ3ZW7nphla2YAXXAlLRMSNKHFaJuFuyIwXIvUCiUJDTElTJ_noTAZ5bcEV1jQgtFWFxb4VqpYve7Rw29fSAj6HR99enKrUetgG2rHjIPCXbBi6xjMpXzctdTqHWuvPRJJqiTSgNBitMuygcg8uiOPSJQ7smAJ_s7NXC7A7pBq7s9Swwa0hoh2uiwj5MO_vLzEofrlgQgts5mpZlaaGJ3cHyzO4F-LviXu0REvGfaotHk9iqK6iVmiMmnvyGfm6jJLsaHfWXxXxm3-cYVy148_VYpCK0_CXPseh_YnrtJzKj2Wh8kI6H1LR-ibQ5S55q5UIJ8l5-mualQqcYwWVYJzMIZYRewWyFHFos7eb4hGI4pJH-KEPjPJXgux8g8kQtLJMMBawHL60pTOQbLZjUW3DpZxCBafVs4KXXwRa3xd7enkKp30PzMfTFdBn1hcpQMOjGrHogZXcqCeP3ep93bM6T1H8wxhuEnQ6Ab6yOLYfFCvPVlV6y83MrilfocUQ3J2ns0brZLre8pjeQmaC_H7B2EUygjEad8i1ufJwVlV-tSMCL5TBBx1T_X3KBXwkMwI-dpjXDCoGly3ivRzqUWSBgTjSIO1x_2lNDfo17PbzpqqguVj4zQsyf1slB6x7RusXJ5FPqwWdvnx8e2C-pNDfjO5BgH94Grq5K4CdTE6Dux14QtDEzwHvaNProf8oQ3vh_g_72JskXMbl7twWBcHdcm6yVneio9K4vHFutfZ1Glwp13eYUGJ1g17f47SN_d31zv_T1i7Q5fglzdwpSUvs1RUyVuaDHByMCs-SdQHImFXOTJugb95STb5tlhtCHwTxmINRvFnFi49yTE6MlvO6eWzxUBsAiyN1SqOQfcelHLrs0FL-5Rm-7xd3U-tuKSiFNeATdORq4VEBYUi1F9_PW3STfsnmBr3sojFd_T4S_jrwu9gplZ1ezx8zN6rzG-U12_7ywz30_8TjjdVfLrIfgaLp1z-hrWhPQfqc6pVbvbmeBMjx2_aa_ITNNrruBEn1DFn-nm1Woa9TkexsF-Gb-fcywqMNT3MC_yiwfzLXZ7OAXlhB3HrOXS25KsUlvg7tP0LuB3EqXMmLcTqzeDGLG7nWI50qUXyCK6h1NfOE-Zh8Bu9_V9-dyTYu4Bd-evzGfy2b8VB_Z1ercfF79mNb9rVL84PKpMR08LtJSiuajlwVqzBCWSqhYGj5b7VrgqAkDzOIiAQQ4IOArtP4f7-lO-AtZibUbKB4-Efw3kYYw==)
+
+User Story #212032: bit502 Final Project - Part 2: ACME Insurance Claim
+Criteria Website
+------------------------------------------------------------------------
+
+> - Create an MVC website where managers at Acme Insurance will enter
+>   the criteria used to approve or deny a claim.
+> - This site should NOT use the Waystar template, as it's not a Waystar
+>   site.
+> - It should have a "New / Edit" view and a "Read Only" view of the
+>   data.
+> - It should allow viewing / editing the following criteria:
+>   - Claim Amount (This is the amount the claim must be less than to be
+>     approved)
+>   - Claim Network Status (In / Out of Network)
+>   - Preferred Provider (true / false)
+>   - Pre-Approval Obtained (true / false)
+> - It should save the data to a database (Acme Claims Database - Claim
+>   Criteria Table).
+> - You can enter MUTLIPLE criteria - each will be a row in the Claim
+>   Criteria Table.
+>   - Example: You could enter:
+>     - 100.00, In Network, False, False
+>     - 500.00, In Network, True, False
+>     - 300.00, Out of Network, True, True
+>   - The claim will be approved by the Decider Service if the Claim
+>     meets any of the entered criteria (that's another part of the
+>     assignment).
