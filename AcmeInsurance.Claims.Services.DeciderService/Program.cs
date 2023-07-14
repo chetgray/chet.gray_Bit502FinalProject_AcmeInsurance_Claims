@@ -96,6 +96,7 @@ namespace AcmeInsurance.Claims.Services.DeciderService
             {
                 _cancellationTokenSource.Cancel();
             }
+
             try
             {
                 _serviceTask.Wait();
@@ -104,6 +105,7 @@ namespace AcmeInsurance.Claims.Services.DeciderService
             {
                 _logger.Error("Error waiting for service task to complete", ex);
             }
+
             _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
             _serviceTask?.Dispose();
@@ -170,6 +172,16 @@ namespace AcmeInsurance.Claims.Services.DeciderService
                             $"Claim {claim.Id} does not match any criteria. Denying."
                         );
                         claim.ClaimStatus = ClaimStatus.Denied;
+                    }
+
+                    try
+                    {
+                        _claimBl.UpdateClaimStatus(claim.Id, claim.ClaimStatus);
+                        _logger.Debug($"Claim {claim.Id} status updated: {claim.ClaimStatus}");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error($"Error updating claim {claim.Id}", ex);
                     }
                 }
             );

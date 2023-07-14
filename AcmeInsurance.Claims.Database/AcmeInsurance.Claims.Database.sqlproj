@@ -74,6 +74,7 @@
     <Build Include="Stored Procedures\spA_Claim_Insert.sql" />
     <Build Include="Stored Procedures\spA_Claim_SelectById.sql" />
     <Build Include="Stored Procedures\spA_Claim_SelectByClaimStatus.sql" />
+    <Build Include="Stored Procedures\spA_Claim_UpdateClaimStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AcmeInsurance.Claims.Database.publish.xml" />

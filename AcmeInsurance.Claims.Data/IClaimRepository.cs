@@ -10,5 +10,6 @@ namespace AcmeInsurance.Claims.Data
         IProviderDto GetProviderByCode(string code);
         IProviderDto GetProviderById(int id);
         IList<IClaimDto> ListByClaimStatus(int claimStatusId);
+        IClaimDto UpdateClaimStatus(int id, int claimStatusId);
     }
 }

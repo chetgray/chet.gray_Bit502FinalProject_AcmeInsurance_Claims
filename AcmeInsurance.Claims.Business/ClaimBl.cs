@@ -46,6 +46,14 @@ namespace AcmeInsurance.Claims.Business
             return models;
         }
 
+        public IClaimModel UpdateClaimStatus(int id, ClaimStatus claimStatus)
+        {
+            IClaimDto dto = Repository.UpdateClaimStatus(id, (int)claimStatus);
+            IClaimModel updatedModel = ConvertToModel(dto);
+
+            return updatedModel;
+        }
+
         private IProviderModel ConvertProviderToModel(IProviderDto dto)
         {
             if (dto is null)

@@ -71,6 +71,22 @@ namespace AcmeInsurance.Claims.Data
             return dtos;
         }
 
+        public IClaimDto UpdateClaimStatus(int id, int claimStatusId)
+        {
+            object[] record = Dal.GetRecordFromStoredProcedure(
+                "spA_Claim_UpdateClaimStatus",
+                new Dictionary<string, object>
+                {
+                    { "@id", id },
+                    { "@claimStatusId", claimStatusId },
+                }
+            );
+
+            IClaimDto updatedDto = ConvertToDto(record);
+
+            return updatedDto;
+        }
+
         private IProviderDto ConvertProviderToDto(object[] record)
         {
             if (record is null)
