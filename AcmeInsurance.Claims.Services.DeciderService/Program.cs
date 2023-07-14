@@ -146,6 +146,33 @@ namespace AcmeInsurance.Claims.Services.DeciderService
                 _logger.Info("No criteria found. Skipping processing");
                 return;
             }
+
+            Parallel.ForEach(
+                claims,
+                claim =>
+                {
+                    _logger.Debug($"Processing claim {claim.Id}");
+                    foreach (ICriteriaModel criteria in criteriaList)
+                    {
+                        if (criteria.AreMetBy(claim))
+                        {
+                            _logger.Debug(
+                                $"Claim {claim.Id} matches criteria {criteria.Id}. Approving."
+                            );
+                            claim.ClaimStatus = ClaimStatus.Approved;
+                            break;
+                        }
+                    }
+
+                    if (claim.ClaimStatus == ClaimStatus.Pending)
+                    {
+                        _logger.Debug(
+                            $"Claim {claim.Id} does not match any criteria. Denying."
+                        );
+                        claim.ClaimStatus = ClaimStatus.Denied;
+                    }
+                }
+            );
         }
     }
 }
