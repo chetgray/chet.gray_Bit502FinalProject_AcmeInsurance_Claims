@@ -1,10 +1,12 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 using AcmeInsurance.Claims.Business;
+using AcmeInsurance.Claims.Models;
 
 using log4net;
 
@@ -71,7 +73,7 @@ namespace AcmeInsurance.Claims.Services.DeciderService
                         Stopwatch stopwatch = Stopwatch.StartNew();
                         _logger.Debug("Running service");
 
-                        // TODO: Add service logic here
+                        TryProcessPendingClaims();
 
                         stopwatch.Stop();
                         if (stopwatch.Elapsed < _taskWaitTimeout)
@@ -107,6 +109,43 @@ namespace AcmeInsurance.Claims.Services.DeciderService
             _serviceTask?.Dispose();
             _serviceTask = null;
             _logger.Info("Service stopped");
+        }
+
+        private void TryProcessPendingClaims()
+        {
+            ICollection<IClaimModel> claims = null;
+            try
+            {
+                claims = _claimBl.ListByClaimStatus(ClaimStatus.Pending);
+                _logger.Info($"Found {claims.Count} pending claims");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error getting pending claims", ex);
+            }
+
+            if (claims?.Count == 0)
+            {
+                _logger.Debug("No pending claims found. Skipping processing");
+                return;
+            }
+
+            ICollection<ICriteriaModel> criteriaList = null;
+            try
+            {
+                criteriaList = _criteriaBl.ListAll();
+                _logger.Debug($"Found {criteriaList.Count} criteria");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error getting criteria", ex);
+            }
+
+            if (criteriaList?.Count == 0)
+            {
+                _logger.Info("No criteria found. Skipping processing");
+                return;
+            }
         }
     }
 }

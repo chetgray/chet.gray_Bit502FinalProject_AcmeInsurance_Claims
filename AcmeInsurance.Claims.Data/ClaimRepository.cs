@@ -55,6 +55,22 @@ namespace AcmeInsurance.Claims.Data
             return dto;
         }
 
+        public IList<IClaimDto> ListByClaimStatus(int claimStatusId)
+        {
+            IEnumerable<object[]> records = Dal.GetRecordListFromStoredProcedure(
+                "spA_Claim_SelectByClaimStatus",
+                new Dictionary<string, object> { { "@claimStatusId", claimStatusId } }
+            );
+            IList<IClaimDto> dtos = new List<IClaimDto>();
+            foreach (object[] record in records)
+            {
+                IClaimDto dto = ConvertToDto(record);
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
+
         private IProviderDto ConvertProviderToDto(object[] record)
         {
             if (record is null)
