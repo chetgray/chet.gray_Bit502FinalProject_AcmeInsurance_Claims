@@ -1,8 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 
 using AcmeInsurance.Claims.Business;
 using AcmeInsurance.Claims.Models;
+
+using Newtonsoft.Json;
 
 using Unity;
 
@@ -11,6 +17,38 @@ namespace AcmeInsurance.Claims.WebServices.Api.Controllers
     public class ClaimsController : ApiController
     {
         private readonly IClaimBl _bl = UnityConfig.Container.Resolve<IClaimBl>();
+
+        // GET: api/Claims/{id}/ClaimStatus
+        [HttpGet]
+        [Route("api/Claims/{id}/ClaimStatus")]
+        public ClaimStatus GetClaimStatus(int id)
+        {
+            try
+            {
+                ClaimStatus claimStatus = _bl.GetClaimStatus(id);
+
+                return claimStatus;
+            }
+            catch (Exception ex)
+            {
+                HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
+                if (ex is NullReferenceException)
+                {
+                    statusCode = HttpStatusCode.NotFound;
+                }
+
+                throw new HttpResponseException(
+                    new HttpResponseMessage(statusCode)
+                    {
+                        Content = new StringContent(
+                            JsonConvert.SerializeObject(new { ex.Message }),
+                            Encoding.UTF8,
+                            "application/json"
+                        )
+                    }
+                );
+            }
+        }
 
         // POST: api/Claims
         [HttpPost]

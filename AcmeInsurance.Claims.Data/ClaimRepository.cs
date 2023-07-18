@@ -31,6 +31,18 @@ namespace AcmeInsurance.Claims.Data
             return addedDto;
         }
 
+        public IClaimDto GetById(int id)
+        {
+            object[] record = Dal.GetRecordFromStoredProcedure(
+                "spA_Claim_SelectById",
+                new Dictionary<string, object> { { "@id", id } }
+            );
+
+            IClaimDto dto = ConvertToDto(record);
+
+            return dto;
+        }
+
         public IProviderDto GetProviderByCode(string code)
         {
             object[] record = Dal.GetRecordFromStoredProcedure(
