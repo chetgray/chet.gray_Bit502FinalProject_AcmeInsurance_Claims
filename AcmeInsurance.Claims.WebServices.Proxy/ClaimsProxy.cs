@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace AcmeInsurance.Claims.WebServices.Proxy
         public ClaimsProxy()
         {
             _asyncClient = ApiHelper.AsyncClient;
-            _baseUri = new Uri("http://localhost:8003/api/");
+            _baseUri = new Uri(ConfigurationManager.AppSettings["BaseUri"]);
             _serializerSettings = new JsonSerializerSettings
             {
                 MissingMemberHandling = MissingMemberHandling.Ignore
