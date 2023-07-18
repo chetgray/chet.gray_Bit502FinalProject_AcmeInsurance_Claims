@@ -63,5 +63,43 @@ namespace AcmeInsurance.Claims.WebServices.Proxy
                 return id;
             }
         }
+
+        public ClaimStatus GetClaimStatus(int id)
+        {
+            Uri requestUri = new Uri(_baseUri, $"Claims/{id}/ClaimStatus");
+            using (WebClient client = ApiHelper.GetSyncClient())
+            {
+                string responseString = client.DownloadString(requestUri);
+                ClaimStatus claimStatus = JsonConvert.DeserializeObject<ClaimStatus>(
+                    responseString,
+                    _serializerSettings
+                );
+
+                return claimStatus;
+            }
+        }
+
+        public async Task<ClaimStatus> GetClaimStatusAsync(int id)
+        {
+            Uri requestUri = new Uri(_baseUri, $"Claims/{id}/ClaimStatus");
+            using (HttpResponseMessage response = await _asyncClient.GetAsync(requestUri))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException(
+                        "Response status code does not indicate success: "
+                            + $"{(int)response.StatusCode} ({response.ReasonPhrase})."
+                    );
+                }
+
+                string responseString = await response.Content.ReadAsStringAsync();
+                ClaimStatus claimStatus = JsonConvert.DeserializeObject<ClaimStatus>(
+                    responseString,
+                    _serializerSettings
+                );
+
+                return claimStatus;
+            }
+        }
     }
 }
