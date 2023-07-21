@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 using AcmeInsurance.Claims.Models;
@@ -18,6 +19,7 @@ namespace AcmeInsurance.Claims.WebServices.Proxy
 
         public ClaimsProxy()
         {
+            ApiHelper.InitializeAsyncClient();
             _asyncClient = ApiHelper.AsyncClient;
             _baseUri = new Uri(ConfigurationManager.AppSettings["BaseUri"]);
             _serializerSettings = new JsonSerializerSettings
@@ -46,7 +48,7 @@ namespace AcmeInsurance.Claims.WebServices.Proxy
             using (
                 HttpResponseMessage response = await _asyncClient.PostAsync(
                     requestUri,
-                    new StringContent(requestJsonString)
+                    new StringContent(requestJsonString, Encoding.UTF8, "application/json")
                 )
             )
             {

@@ -52,7 +52,7 @@ namespace AcmeInsurance.Claims.WebServices.Api.Controllers
 
         // POST: api/Claims
         [HttpPost]
-        public int Post(PostRequest request)
+        public int Post([FromBody] PostRequest request)
         {
             IClaimModel claim = ConvertToModel(request);
             IClaimModel addedClaim = _bl.Add(claim);
