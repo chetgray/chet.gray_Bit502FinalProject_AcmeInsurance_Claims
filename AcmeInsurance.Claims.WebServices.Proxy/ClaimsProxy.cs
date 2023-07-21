@@ -31,7 +31,17 @@ namespace AcmeInsurance.Claims.WebServices.Proxy
         public int AddClaim(IClaimModel claim)
         {
             Uri requestUri = new Uri(_baseUri, "Claims");
-            string requestJsonString = JsonConvert.SerializeObject(claim, _serializerSettings);
+            object claimEntry = new
+            {
+                claim.PatientName,
+                claim.Amount,
+                ProviderCode = claim.Provider.Code,
+                claim.HasPreApproval
+            };
+            string requestJsonString = JsonConvert.SerializeObject(
+                claimEntry,
+                _serializerSettings
+            );
             using (WebClient client = ApiHelper.GetSyncClient())
             {
                 string responseString = client.UploadString(requestUri, requestJsonString);
@@ -44,7 +54,17 @@ namespace AcmeInsurance.Claims.WebServices.Proxy
         public async Task<int> AddClaimAsync(IClaimModel claim)
         {
             Uri requestUri = new Uri(_baseUri, "Claims");
-            string requestJsonString = JsonConvert.SerializeObject(claim, _serializerSettings);
+            object claimEntry = new
+            {
+                claim.PatientName,
+                claim.Amount,
+                ProviderCode = claim.Provider.Code,
+                claim.HasPreApproval
+            };
+            string requestJsonString = JsonConvert.SerializeObject(
+                claimEntry,
+                _serializerSettings
+            );
             using (
                 HttpResponseMessage response = await _asyncClient.PostAsync(
                     requestUri,
