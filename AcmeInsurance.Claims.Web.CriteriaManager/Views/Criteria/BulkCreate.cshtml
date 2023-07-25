@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Bulk Create Criteria";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <textarea class="form-control" id="criteria" name="criteria" aria-label="Criteria"
+                  rows="10" cols="200"></textarea>
+        <div class="form-text" id="criteriaHelp">
+            Enter one criteria per line. Each line should have the following format:<br />
+            <code>DenialMinimumAmount, RequiresProviderIsInNetwork, RequiresProviderIsPreferred,
+            RequiresClaimHasPreApproval</code><br />
+            for example:
+            <pre>100.00, In Network, False, False
+500,    false,      true,  false
+300.00,Out of Network,True,true</pre>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" name="action" type="submit">Bulk Create</button>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List")
+</div>

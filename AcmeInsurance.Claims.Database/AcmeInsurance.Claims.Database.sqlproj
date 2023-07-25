@@ -56,16 +56,23 @@
     <Folder Include="Properties" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\PostDeploy" />
+    <Folder Include="Stored Procedures" />
     <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
+    <Build Include="Stored Procedures\spA_Criteria_SelectAll.sql" />
     <Build Include="Tables\Claim.sql" />
     <Build Include="Tables\ClaimStatus.sql" />
     <Build Include="Tables\Criteria.sql" />
     <Build Include="Tables\Provider.sql" />
+    <Build Include="Stored Procedures\spA_Criteria_SelectById.sql" />
+    <Build Include="Stored Procedures\spA_Criteria_Insert.sql" />
+    <Build Include="Stored Procedures\spA_Criteria_DeleteById.sql" />
+    <Build Include="Stored Procedures\spA_Criteria_UpdateById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AcmeInsurance.Claims.Database.publish.xml" />
+    <None Include="Scripts\PostDeploy\CreateRoleAndUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeploy\Script.PostDeployment.sql" />

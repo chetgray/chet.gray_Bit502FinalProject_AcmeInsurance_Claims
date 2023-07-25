@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Company = "Acme Insurance";
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - @ViewBag.Company</title>
+    @Styles.Render("~/Content/css")
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-body-tertiary">
+        <div class="container">
+            @Html.ActionLink((string)ViewBag.Company, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" data-bs-target="#navbarSupportedContent"
+                    data-bs-toggle="collapse" type="button" title="Toggle navigation"
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav flex-grow-1">
+                    <li>
+                        @Html.ActionLink("Claims", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                           role="button" aria-expanded="false">Criteria</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                @Html.ActionLink("List All", "List", "Criteria", new { area = "" }, new { @class = "dropdown-item" })
+                            </li>
+                            <li>
+                                @Html.ActionLink("Create New", "Create", "Criteria", new { area = "" }, new { @class = "dropdown-item" })
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - @ViewBag.Company</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery") @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
