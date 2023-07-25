@@ -220,6 +220,24 @@ workspace {
                         }
                     }
                 }
+
+                group "AcmeInsurance.Claims.Services" {
+                    Services_DeciderService = container "Services.DeciderService" {
+                        description "Decides whether to approve or deny a claim"
+                        technology "Windows Service"
+
+                        Service = component "Service" {
+                            description "Decides whether to approve or deny a claim"
+                            technology "class"
+                            -> Business "Manages claim status using"
+                            -> Business.ClaimBl "Manages claim status using"
+                            -> Business.CriteriaBl "Lists criteria using"
+                            -> Models "Uses"
+                            -> Models.ClaimModel "Uses"
+                            -> Models.CriteriaModel "Uses"
+                        }
+                    }
+                }
             }
 
             Manager = person "Acme Insurance Manager" {
@@ -235,6 +253,7 @@ workspace {
                 "structurizr.softwareSystemBoundaries" "true"
                 "structurizr.enterpriseBoundary" "true"
             }
+            include element.parent==AcmeInsurance_Claims.Services_DeciderService
             include element.parent==AcmeInsurance_Claims.WebServices_Proxy_Tests
             include element.parent==AcmeInsurance_Claims.WebServices_Proxy
             include element.parent==AcmeInsurance_Claims.WebServices_Api
@@ -361,3 +380,33 @@ Claim API
 >   ```
 
 ![AcmeInsurance.Claims.WebServices.Proxy component diagram](https://kroki.io/structurizr/svg/eNrNWNuS4jYQfecrFD1PzBdMqpiZrSypHUJiNnmcEnIzKGNLLkkelk3x72nJGHzDF5hK4gfKSOp29-nTx5J3Sr-ZlHEgf08IXj-ICKQVGwHakC3-Ms23grN44qcTFUF8XOquVKsUtBVgSoPuosbqjNtMi-86eNUqS0NImWZWaUrolJ4WHyanW7-M0BlPYC5NppnkQGt-K5MvjzETiSH3xKiN3TEN4d5YSGo-gnxZ3ZW7nphla2YAXXAlLRMSNKHFaJuFuyIwXIvUCiUJDTElTJ_noTAZ5bcEV1jQgtFWFxb4VqpYve7Rw29fSAj6HR99enKrUetgG2rHjIPCXbBi6xjMpXzctdTqHWuvPRJJqiTSgNBitMuygcg8uiOPSJQ7smAJ_s7NXC7A7pBq7s9Swwa0hoh2uiwj5MO_vLzEofrlgQgts5mpZlaaGJ3cHyzO4F-LviXu0REvGfaotHk9iqK6iVmiMmnvyGfm6jJLsaHfWXxXxm3-cYVy148_VYpCK0_CXPseh_YnrtJzKj2Wh8kI6H1LR-ibQ5S55q5UIJ8l5-mualQqcYwWVYJzMIZYRewWyFHFos7eb4hGI4pJH-KEPjPJXgux8g8kQtLJMMBawHL60pTOQbLZjUW3DpZxCBafVs4KXXwRa3xd7enkKp30PzMfTFdBn1hcpQMOjGrHogZXcqCeP3ep93bM6T1H8wxhuEnQ6Ab6yOLYfFCvPVlV6y83MrilfocUQ3J2ns0brZLre8pjeQmaC_H7B2EUygjEad8i1ufJwVlV-tSMCL5TBBx1T_X3KBXwkMwI-dpjXDCoGly3ivRzqUWSBgTjSIO1x_2lNDfo17PbzpqqguVj4zQsyf1slB6x7RusXJ5FPqwWdvnx8e2C-pNDfjO5BgH94Grq5K4CdTE6Dux14QtDEzwHvaNProf8oQ3vh_g_72JskXMbl7twWBcHdcm6yVneio9K4vHFutfZ1Glwp13eYUGJ1g17f47SN_d31zv_T1i7Q5fglzdwpSUvs1RUyVuaDHByMCs-SdQHImFXOTJugb95STb5tlhtCHwTxmINRvFnFi49yTE6MlvO6eWzxUBsAiyN1SqOQfcelHLrs0FL-5Rm-7xd3U-tuKSiFNeATdORq4VEBYUi1F9_PW3STfsnmBr3sojFd_T4S_jrwu9gplZ1ezx8zN6rzG-U12_7ywz30_8TjjdVfLrIfgaLp1z-hrWhPQfqc6pVbvbmeBMjx2_aa_ITNNrruBEn1DFn-nm1Woa9TkexsF-Gb-fcywqMNT3MC_yiwfzLXZ7OAXlhB3HrOXS25KsUlvg7tP0LuB3EqXMmLcTqzeDGLG7nWI50qUXyCK6h1NfOE-Zh8Bu9_V9-dyTYu4Bd-evzGfy2b8VB_Z1ercfF79mNb9rVL84PKpMR08LtJSiuajlwVqzBCWSqhYGj5b7VrgqAkDzOIiAQQ4IOArtP4f7-lO-AtZibUbKB4-Efw3kYYw==)
+
+User Story #212032: bit502 Final Project - Part 2: ACME Insurance Claim
+Criteria Website
+------------------------------------------------------------------------
+
+> - Create an MVC website where managers at Acme Insurance will enter
+>   the criteria used to approve or deny a claim.
+> - This site should NOT use the Waystar template, as it's not a Waystar
+>   site.
+> - It should have a "New / Edit" view and a "Read Only" view of the
+>   data.
+> - It should allow viewing / editing the following criteria:
+>   - Claim Amount (This is the amount the claim must be less than to be
+>     approved)
+>   - Claim Network Status (In / Out of Network)
+>   - Preferred Provider (true / false)
+>   - Pre-Approval Obtained (true / false)
+> - It should save the data to a database (Acme Claims Database - Claim
+>   Criteria Table).
+> - You can enter MUTLIPLE criteria - each will be a row in the Claim
+>   Criteria Table.
+>   - Example: You could enter:
+>     - 100.00, In Network, False, False
+>     - 500.00, In Network, True, False
+>     - 300.00, Out of Network, True, True
+>   - The claim will be approved by the Decider Service if the Claim
+>     meets any of the entered criteria (that's another part of the
+>     assignment).
+
+![AcmeInsurance.Claims.Services.DeciderService component diagram](https://kroki.io/structurizr/svg/eNrFWd2O2ygUvs9TsFxP3SfISpPJShtpZjTbdNvLirFPJqg2eAEnyq7m3QvYOMY_xHayLRdRApzj8_Od74Bz5OK7zEkM6L8F0uM3mgBTdEdBSLTXn0TEexqTdGGXM55AWm01Ixc8B6EoyMakGVgqUcSqEPRfEb0JXuRbyIkgiguM8Edcb35f1F_tNoTv4ww2TBaCsBhwS6-3-O0hJTSTaIkk36kjEbA9SQVZS0dUbmurMmNNFHklErSKmDNFKAOBsJvtkzAjARkLmivKGcJb7ZJ2Py5NISwpvyK9Q4GgBPeqUBDvGU_520lr-OsRbUEc9KPrJ_cK9U72Ra3yOHLqos_kNQU55I8ZL4IfdO6FjUSWc6ZhgLCbDUl2IrJJ7tCDBsodeiaZ_tzIDXsGddRQMz9eBOxACEhwUGUzQtb84e0NDLWHDcRWEVVI37PGwmTnvpC0gJ9mfY_dky1-IbpGmSrz4ZJqFu4zXjB1h_4kJi_3uS7oA0nvmnHb3C5RZnz43UsK9p6kfb30OC1fYxWfXbkgGQpyVaitOLvynRrqNTBK0ifKaFZkLryf4J-Capqo7W2WRHexLpHzog2Tn6UbInBCyCzfJdrWGJLCMJ8XtnIVnZdD8fNiV3mvKTSOQUqkOFJ7QBXFJ0Fi7DBqx4rFJTgi_EQYeXNMbh-IKAsLOuScZd1MULwb755YG-7utqVRLSkcynCPaYYxev7js5HSKh7pqz4KnPBiVg-yH_fWmBAe1iT10aQnJtWfS8NMCLX9j43rF9moPkPg0kMYLxJ1igk_kDSVNyrVteKt8jQzoyvyE-TaJCNn0bwTPJtfkjaWQ6EZsN8-SFvBJdVxOvU0wvPiaK-8MpcTjA9SgYFunX8bJRceVEjK3i4IOwT5xo0ioQCWehhthDEGNDr3-uzOJqarIr_BjHXWpycteKj-9WkbRf8TEufpu1HuRmTzyVzzpN99yrlp_Scr9ey4mHAdGt11LANYs3qYwc5PpzrdO8pyuRphF4qkz-7m0hzTb1Ydo0CyMng0bdaDiZudBpRXp0ubRuMSMAF-ng-XVR9WVukv7x66vM881GT_cTQUtVvlVcpKGnng7ABCmWPUR9P7g3IlO0SNkuzI23cj4oq-shqolznpu3kf8RM4lbdtCrvt80qNV-TRY6lZqRyR3NC1wbwQo_Hw_dGtf1tDbC7N1W-fjNymyN80Gi6lmETHPeizgTAXCmIv34A0QyXATtPaxVfKEn6Uzng8_FKi6c75cn3Z_P_FhXn3oro_tM6hsnzxcwHDLSWRY-_bKDszCn6kstE6R2qqDkj47zG3vR5unCTn12JY9H10Nfb_Kr9VtXqgcGy-2D9Dse81fDRUkj5aB_8y6Pxt4L_UX_GCJURQQwlY7-q5d3rS2kwQuaASKslTr5wfCMritEgAQQqZVhDl-vFMLZdT_J2v0OFzvoYSMkF5dcphuaxJspP59x9hk7JD)

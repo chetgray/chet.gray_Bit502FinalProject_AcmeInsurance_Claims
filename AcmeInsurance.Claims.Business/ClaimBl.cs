@@ -1,4 +1,6 @@
-﻿using AcmeInsurance.Claims.Data;
+﻿using System.Collections.Generic;
+
+using AcmeInsurance.Claims.Data;
 using AcmeInsurance.Claims.Data.Objects;
 using AcmeInsurance.Claims.Models;
 
@@ -34,6 +36,22 @@ namespace AcmeInsurance.Claims.Business
             IProviderModel model = ConvertProviderToModel(dto);
 
             return model;
+        }
+
+        public IList<IClaimModel> ListByClaimStatus(ClaimStatus claimStatus)
+        {
+            IEnumerable<IClaimDto> dtos = Repository.ListByClaimStatus((int)claimStatus);
+            IList<IClaimModel> models = ConvertToModelList(dtos);
+
+            return models;
+        }
+
+        public IClaimModel UpdateClaimStatus(int id, ClaimStatus claimStatus)
+        {
+            IClaimDto dto = Repository.UpdateClaimStatus(id, (int)claimStatus);
+            IClaimModel updatedModel = ConvertToModel(dto);
+
+            return updatedModel;
         }
 
         private IProviderModel ConvertProviderToModel(IProviderDto dto)
@@ -87,6 +105,18 @@ namespace AcmeInsurance.Claims.Business
             model.ClaimStatus = (ClaimStatus)dto.ClaimStatusId;
 
             return model;
+        }
+
+        private IList<IClaimModel> ConvertToModelList(IEnumerable<IClaimDto> dtos)
+        {
+            IList<IClaimModel> models = new List<IClaimModel>();
+            foreach (IClaimDto dto in dtos)
+            {
+                IClaimModel model = ConvertToModel(dto);
+                models.Add(model);
+            }
+
+            return models;
         }
     }
 }
