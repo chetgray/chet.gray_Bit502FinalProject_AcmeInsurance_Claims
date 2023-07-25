@@ -1,18 +1,17 @@
 ﻿using System;
 
-using AcmeInsurance.Claims.Data;
 using AcmeInsurance.Claims.Models;
 
 using Unity;
 
-namespace AcmeInsurance.Claims.Business
+namespace AcmeInsurance.Claims.WebServices.Proxy.Tests
 {
     public static class UnityConfig
     {
         private static readonly Lazy<IUnityContainer> _container =
             new Lazy<IUnityContainer>(() =>
             {
-                IUnityContainer container = Data.UnityConfig.Container.CreateChildContainer();
+                IUnityContainer container = new UnityContainer();
                 RegisterTypes(container);
 
                 return container;
@@ -27,10 +26,6 @@ namespace AcmeInsurance.Claims.Business
         {
             container.RegisterType<IProviderModel, ProviderModel>();
             container.RegisterType<IClaimModel, ClaimModel>();
-            container.RegisterType<ICriteriaModel, CriteriaModel>();
-
-            container.RegisterSingleton<IClaimRepository, ClaimRepository>();
-            container.RegisterSingleton<ICriteriaRepository, CriteriaRepository>();
         }
     }
 }
