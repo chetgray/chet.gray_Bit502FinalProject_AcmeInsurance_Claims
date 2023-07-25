@@ -43,5 +43,33 @@ namespace AcmeInsurance.Claims.WebServices.Proxy.Tests
             // Assert
             Assert.ThrowsException<AggregateException>(() => proxy.AddClaimAsync(claim).Wait());
         }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        public void GetClaimStatus_ClaimDoesNotExist_ThrowsException(int id)
+        {
+            // Arrange
+            ClaimsProxy proxy = new ClaimsProxy();
+
+            // Act
+            // Assert
+            Assert.ThrowsException<WebException>(() => proxy.GetClaimStatus(id));
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(-1)]
+        public void GetClaimStatusAsync_ClaimDoesNotExist_ThrowsException(int id)
+        {
+            // Arrange
+            ClaimsProxy proxy = new ClaimsProxy();
+
+            // Act
+            // Assert
+            Assert.ThrowsException<AggregateException>(
+                () => proxy.GetClaimStatusAsync(id).Wait()
+            );
+        }
     }
 }

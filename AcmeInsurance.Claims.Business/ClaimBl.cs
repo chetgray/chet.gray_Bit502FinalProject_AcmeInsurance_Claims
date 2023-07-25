@@ -22,6 +22,13 @@ namespace AcmeInsurance.Claims.Business
             return addedModel;
         }
 
+        public ClaimStatus GetClaimStatus(int id)
+        {
+            IClaimDto dto = Repository.GetById(id);
+
+            return (ClaimStatus)dto.ClaimStatusId;
+        }
+
         public IProviderModel GetProviderByCode(string code)
         {
             IProviderDto dto = Repository.GetProviderByCode(code);
